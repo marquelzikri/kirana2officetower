@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../atoms/Logo';
 import { Icon } from '../atoms/Icon';
 import { Button } from '../atoms/Button';
@@ -10,6 +11,8 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
+  const location = useLocation();
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -40,24 +43,30 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         </div>
 
         <nav className="flex flex-col gap-8">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={onClose}
-              className={`font-headline-md transition-colors ${
-                item.active ? 'text-heritage-red' : 'text-on-surface hover:text-heritage-red'
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive =
+              (item.href === '/' && location.pathname === '/') ||
+              (item.href === '/properti' && location.pathname.startsWith('/properti'));
+
+            return (
+              <Link
+                key={item.label}
+                to={item.href}
+                onClick={onClose}
+                className={`font-headline-md transition-colors ${
+                  isActive ? 'text-heritage-red font-bold' : 'text-on-surface hover:text-heritage-red'
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="mt-auto pt-6">
           <Button
             asAnchor
-            href="#kontak"
+            href="/#kontak"
             variant="primary"
             className="w-full text-center justify-center py-5"
             onClick={onClose}
