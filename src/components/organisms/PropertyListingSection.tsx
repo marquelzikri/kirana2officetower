@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Property } from '../../types';
-import { allProperties } from '../../data/mockData';
+import { useProperties } from '../../hooks/useProperties';
 import { OfficeFilterBar, FilterState } from '../molecules/OfficeFilterBar';
 import { OfficePropertyCard } from '../molecules/OfficePropertyCard';
 import { ScheduleSurveyModal } from '../molecules/ScheduleSurveyModal';
@@ -21,6 +21,11 @@ export const PropertyListingSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedSurveyProperty, setSelectedSurveyProperty] = useState<Property | null>(null);
   const [isSurveyModalOpen, setIsSurveyModalOpen] = useState(false);
+
+  // Fetch properties via React Query from native Bun REST API
+  const { data, isLoading, isError, error, refetch } = useProperties(filters);
+
+  const properties = data?.properties ?? [];
 
   const handleFilterChange = (newFilters: Partial<FilterState>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
@@ -44,73 +49,12 @@ export const PropertyListingSection: React.FC = () => {
     setIsSurveyModalOpen(true);
   };
 
-  // Filter & Sort Logic
-  const filteredProperties = useMemo(() => {
-    return allProperties.filter((property) => {
-      // Search query filter (matches title, unitCode, location, or floor)
-      if (filters.searchQuery.trim() !== '') {
-        const query = filters.searchQuery.toLowerCase();
-        const matchesQuery =
-          property.title.toLowerCase().includes(query) ||
-          property.unitCode.toLowerCase().includes(query) ||
-          property.location.toLowerCase().includes(query) ||
-          property.floor.toString().includes(query) ||
-          (property.description && property.description.toLowerCase().includes(query));
-
-        if (!matchesQuery) return false;
-      }
-
-      // Zone Filter
-      if (filters.zone !== 'all' && property.zone !== filters.zone) {
-        return false;
-      }
-
-      // Condition Filter
-      if (filters.condition !== 'all' && property.condition !== filters.condition) {
-        return false;
-      }
-
-      // Type Filter
-      if (filters.type !== 'all' && property.type !== filters.type) {
-        return false;
-      }
-
-      // Size Range Filter
-      if (filters.sizeRange !== 'all') {
-        const size = property.sizeSqm;
-        if (filters.sizeRange === 'small' && size >= 150) return false;
-        if (filters.sizeRange === 'medium' && (size < 150 || size > 300)) return false;
-        if (filters.sizeRange === 'large' && (size <= 300 || size > 600)) return false;
-        if (filters.sizeRange === 'whole' && size <= 600) return false;
-      }
-
-      return true;
-    }).sort((a, b) => {
-      if (filters.sortBy === 'price-asc') {
-        return a.numericPrice - b.numericPrice;
-      }
-      if (filters.sortBy === 'price-desc') {
-        return b.numericPrice - a.numericPrice;
-      }
-      if (filters.sortBy === 'size-desc') {
-        return b.sizeSqm - a.sizeSqm;
-      }
-      if (filters.sortBy === 'size-asc') {
-        return a.sizeSqm - b.sizeSqm;
-      }
-      if (filters.sortBy === 'floor-desc') {
-        return b.floor - a.floor;
-      }
-      return 0;
-    });
-  }, [filters]);
-
   // Pagination Logic
-  const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(properties.length / ITEMS_PER_PAGE);
   const paginatedProperties = useMemo(() => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredProperties.slice(start, start + ITEMS_PER_PAGE);
-  }, [filteredProperties, currentPage]);
+    return properties.slice(start, start + ITEMS_PER_PAGE);
+  }, [properties, currentPage]);
 
   return (
     <section className="py-12 md:py-16 bg-surface min-h-[60vh]">
@@ -120,11 +64,41 @@ export const PropertyListingSection: React.FC = () => {
           filters={filters}
           onFilterChange={handleFilterChange}
           onResetFilters={handleResetFilters}
-          totalResults={filteredProperties.length}
+          totalResults={properties.length}
         />
 
-        {/* Listings Grid */}
-        {paginatedProperties.length > 0 ? (
+        {/* Loading State Skeleton */}
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <div key={idx} className="animate-pulse bg-surface-container-low rounded-2xl p-4 border border-outline-variant/10 h-[420px] flex flex-col justify-between">
+                <div className="w-full h-48 bg-surface-container rounded-xl mb-4" />
+                <div className="h-6 bg-surface-container rounded w-3/4 mb-2" />
+                <div className="h-4 bg-surface-container rounded w-1/2 mb-4" />
+                <div className="h-10 bg-surface-container rounded w-full mt-auto" />
+              </div>
+            ))}
+          </div>
+        ) : isError ? (
+          /* Error State */
+          <div className="text-center py-16 bg-surface-container-lowest border border-heritage-red/20 rounded-2xl p-8 max-w-lg mx-auto">
+            <div className="w-16 h-16 bg-heritage-red/10 text-heritage-red rounded-full flex items-center justify-center mx-auto mb-4">
+              <Icon name="error_outline" className="text-[32px]" />
+            </div>
+            <h3 className="font-headline-md text-on-surface mb-2">Gagal Memuat Data Properti</h3>
+            <p className="text-on-surface-variant text-body-sm mb-6">
+              {error instanceof Error ? error.message : 'Terjadi kesalahan saat menghubungkan ke REST API Bun.'}
+            </p>
+            <button
+              onClick={() => refetch()}
+              className="px-6 py-3 rounded-lg bg-heritage-red text-white font-label-md hover:bg-heritage-red-dark transition-colors inline-flex items-center gap-2"
+            >
+              <Icon name="refresh" className="text-[18px]" />
+              Coba Lagi
+            </button>
+          </div>
+        ) : paginatedProperties.length > 0 ? (
+          /* Listings Grid */
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {paginatedProperties.map((property) => (
@@ -203,3 +177,4 @@ export const PropertyListingSection: React.FC = () => {
     </section>
   );
 };
+

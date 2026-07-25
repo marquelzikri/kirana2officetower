@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { allProperties } from '../data/mockData';
+import { useProperty, useProperties } from '../hooks/useProperties';
 import { MainLayout } from '../components/templates/MainLayout';
 import { Badge } from '../components/atoms/Badge';
 import { Icon } from '../components/atoms/Icon';
@@ -10,14 +10,28 @@ import { OfficePropertyCard } from '../components/molecules/OfficePropertyCard';
 
 export const PropertyDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const property = allProperties.find((p) => p.id === id);
+  const { data: property, isLoading, isError } = useProperty(id);
+  const { data: allPropertiesData } = useProperties();
+  const allPropertiesList = allPropertiesData?.properties ?? [];
 
   const [activeMediaTab, setActiveMediaTab] = useState<'photos' | 'floorplan'>('photos');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isSurveyModalOpen, setIsSurveyModalOpen] = useState(false);
   const [selectedRecommendedProperty, setSelectedRecommendedProperty] = useState<any>(null);
 
-  if (!property) {
+  if (isLoading) {
+    return (
+      <MainLayout>
+        <div className="py-32 text-center max-w-md mx-auto animate-pulse">
+          <div className="w-16 h-16 bg-surface-container rounded-full mx-auto mb-4" />
+          <div className="h-6 bg-surface-container rounded w-3/4 mx-auto mb-2" />
+          <div className="h-4 bg-surface-container rounded w-1/2 mx-auto" />
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (isError || !property) {
     return (
       <MainLayout>
         <div className="py-24 text-center max-w-md mx-auto">
@@ -39,7 +53,8 @@ export const PropertyDetailPage: React.FC = () => {
 
   const gallery = property.galleryImages || [property.image];
   const isSale = property.type === 'For Sale';
-  const similarProperties = allProperties.filter((p) => p.id !== property.id).slice(0, 3);
+  const similarProperties = allPropertiesList.filter((p) => p.id !== property.id).slice(0, 3);
+
 
   // Estimator Calculations
   const rentCost = (property.rentalRateSqm || 0) * property.sizeSqm;
@@ -363,7 +378,7 @@ export const PropertyDetailPage: React.FC = () => {
                   to="/properti"
                   className="inline-flex items-center gap-2 text-on-surface hover:text-heritage-red font-label-md transition-colors"
                 >
-                  Lihat Semua ({allProperties.length})
+                  Lihat Semua ({allPropertiesList.length})
                   <Icon name="arrow_forward" className="text-[16px]" />
                 </Link>
               </div>
