@@ -1,15 +1,36 @@
+export type OfficeZone = 'Low Zone' | 'Mid Zone' | 'High Zone' | 'Penthouse';
+export type OfficeCondition = 'Bare Shell' | 'Semi-Fitted' | 'Fully Fitted' | 'Serviced Office';
+export type PropertyType = 'For Rent' | 'For Sale';
+
 export interface Property {
   id: string;
   title: string;
-  category: string; // e.g. 'Office', 'House', 'Mixed-Use'
-  type: string; // e.g. 'For Sale', 'For Rent'
-  location: string;
-  price: string;
+  towerName: string;
+  unitCode: string;
+  floor: number;
+  zone: OfficeZone;
+  condition: OfficeCondition;
+  type: PropertyType;
+  category: string; // e.g. 'Office Tower', 'Executive Suite', 'Whole Floor'
+  location: string; // e.g. 'Kelapa Gading, Jakarta Utara'
+  sizeSqm: number; // e.g. 380
+  area: string; // e.g. '380 m²'
+  price: string; // e.g. 'IDR 83.6 Mio / bln' or 'IDR 12.5 M'
+  numericPrice: number; // e.g. 83600000 (monthly or total for sorting)
+  rentalRateSqm?: number; // e.g. 220000 (IDR / m² / month)
+  serviceChargeSqm?: number; // e.g. 55000 (IDR / m² / month)
+  ceilingHeight?: string; // e.g. '2.80 m'
+  electricityCapacity?: string; // e.g. '35 kVA'
+  parkingRatio?: string; // e.g. '1 : 100 m²'
+  viewType?: string; // e.g. 'City Skyline North'
+  image: string;
+  galleryImages?: string[];
+  floorPlanImage?: string;
+  features?: string[];
+  description?: string;
+  featured?: boolean;
   bathrooms?: number;
   bedrooms?: number;
-  area: string; // e.g. '2,400 m² LB'
-  image: string;
-  featured?: boolean;
 }
 
 export interface Category {
