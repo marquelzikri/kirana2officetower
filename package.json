@@ -10,6 +10,7 @@
     "start": "NODE_ENV=production bun src/index.ts"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.101.4",
     "react": "^19",
     "react-dom": "^19",
     "react-router-dom": "^7.18.1"
