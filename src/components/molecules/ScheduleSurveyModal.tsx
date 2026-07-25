@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Property } from '../../types';
+import type { Property } from '../../types';
 import { Icon } from '../atoms/Icon';
 import { Button } from '../atoms/Button';
 

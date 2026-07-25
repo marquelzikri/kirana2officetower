@@ -5,7 +5,7 @@ import { OfficePropertyCard } from '../molecules/OfficePropertyCard';
 import { ScheduleSurveyModal } from '../molecules/ScheduleSurveyModal';
 import { Icon } from '../atoms/Icon';
 import { useProperties } from '../../hooks/useProperties';
-import { Property } from '../../types';
+import type { Property } from '../../types';
 
 export const FeaturedListingsSection: React.FC = () => {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);

@@ -1,5 +1,5 @@
 {
-  "name": "bun-react-template",
+  "name": "kirana-two-office-tower",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -7,7 +7,11 @@
     "dev": "bun --hot src/index.ts",
     "build:css": "npx @tailwindcss/cli -i ./src/index.css -o ./src/tailwind.css --minify",
     "build": "bun run build:css && bun build ./src/index.html --outdir=dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*'",
-    "start": "NODE_ENV=production bun src/index.ts"
+    "start": "NODE_ENV=production bun src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "preview": "bun run build && wrangler dev",
+    "deploy": "bun run build && wrangler deploy",
+    "deploy:pages": "bun run build && wrangler pages deploy dist"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.4",
@@ -16,12 +20,15 @@
     "react-router-dom": "^7.18.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260724.1",
     "@tailwindcss/cli": "^4.3.3",
     "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.5.4",
     "postcss": "^8.5.23",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.0.0"
   }
 }

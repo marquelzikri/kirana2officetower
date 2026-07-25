@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { Property } from '../../types';
+import type { Property } from '../../types';
 import { useProperties } from '../../hooks/useProperties';
-import { OfficeFilterBar, FilterState } from '../molecules/OfficeFilterBar';
+import { OfficeFilterBar, type FilterState } from '../molecules/OfficeFilterBar';
 import { OfficePropertyCard } from '../molecules/OfficePropertyCard';
 import { ScheduleSurveyModal } from '../molecules/ScheduleSurveyModal';
 import { Icon } from '../atoms/Icon';

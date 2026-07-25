@@ -1,4 +1,4 @@
-import { Property } from '../types';
+import type { Property } from '../types';
 
 export interface PropertyFilterParams {
   searchQuery?: string;
