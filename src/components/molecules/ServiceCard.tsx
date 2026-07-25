@@ -1,5 +1,5 @@
 import React from 'react';
-import { Service } from '../../types';
+import type { Service } from '../../types';
 import { Icon } from '../atoms/Icon';
 
 interface ServiceCardProps {

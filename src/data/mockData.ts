@@ -1,4 +1,4 @@
-import { Category, Property, Service, Stat, NavItem } from '../types';
+import type { Category, Property, Service, Stat, NavItem } from '../types';
 
 export const navItems: NavItem[] = [
   { label: 'Beranda', href: '/' },

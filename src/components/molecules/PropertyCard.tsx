@@ -1,5 +1,5 @@
 import React from 'react';
-import { Property } from '../../types';
+import type { Property } from '../../types';
 import { Badge } from '../atoms/Badge';
 import { Icon } from '../atoms/Icon';
 

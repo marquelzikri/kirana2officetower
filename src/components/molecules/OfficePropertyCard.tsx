@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Property } from '../../types';
+import type { Property } from '../../types';
 import { Badge } from '../atoms/Badge';
 import { Icon } from '../atoms/Icon';
 
