@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../atoms/Logo';
 import { Icon } from '../atoms/Icon';
 import { Button } from '../atoms/Button';
@@ -10,6 +11,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,29 +36,35 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
       }`}
     >
       <div className="flex justify-between items-center max-w-container mx-auto h-full px-4 md:px-margin-desktop">
-        <a href="/" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <Logo />
-        </a>
+        </Link>
 
         <nav className="hidden md:flex items-center space-x-8">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className={`font-label-md transition-colors ${
-                item.active
-                  ? 'text-heritage-red border-b-2 border-heritage-red pb-1'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive =
+              (item.href === '/' && location.pathname === '/') ||
+              (item.href === '/properti' && location.pathname.startsWith('/properti'));
+
+            return (
+              <Link
+                key={item.label}
+                to={item.href}
+                className={`font-label-md transition-colors ${
+                  isActive
+                    ? 'text-heritage-red border-b-2 border-heritage-red pb-1 font-bold'
+                    : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <Button
           asAnchor
-          href="#kontak"
+          href="/#kontak"
           variant="primary"
           className="hidden md:flex"
         >
