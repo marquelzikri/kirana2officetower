@@ -10,8 +10,9 @@ export const navItems: NavItem[] = [
   { label: 'Layanan', href: '/layanan' },
   { label: 'Tentang Kami', href: '/#tentang-kami' },
   { label: 'Insight', href: '/#insight' },
-  { label: 'Kontak', href: '/#kontak' },
+  { label: 'Kontak', href: '/kontak' },
 ];
+
 
 export const heroStats: Stat[] = [
   { id: '1', value: '50,000+', label: 'm² Total NLA Available' },

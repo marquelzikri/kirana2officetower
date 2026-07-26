@@ -76,7 +76,7 @@ export const ServicesPage: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
               <Link
-                to="/#kontak"
+                to="/kontak"
                 className="w-full sm:w-auto px-8 py-4 bg-heritage-red hover:bg-red-800 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 text-center flex items-center justify-center space-x-2"
               >
                 <span>Jadwalkan Konsultasi</span>

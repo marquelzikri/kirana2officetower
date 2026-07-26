@@ -27,7 +27,7 @@ export const CTASection: React.FC = () => {
           </p>
           <Button
             asAnchor
-            href="#kontak"
+            href="kontak"
             variant="primary"
             size="lg"
             className="group gap-4"
