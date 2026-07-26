@@ -6,8 +6,10 @@ import type { PropertyFilterOptions } from './db/queries';
 import { buildFilteredPropertyQuery, INSERT_PROPERTY_QUERY, UPDATE_PROPERTY_QUERY } from './db/queries';
 import { initTableInSqlite } from './db/schema';
 
+export * from './db/contacts';
 export * from './db/users';
 export type { PropertyFilterOptions };
+
 
 export interface EnvWithDb {
   DB?: any;

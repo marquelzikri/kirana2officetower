@@ -92,3 +92,19 @@ export interface JwtPayload {
   exp: number;
 }
 
+export type ContactStatus = 'unread' | 'read' | 'replied';
+
+export interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  company?: string;
+  subject: string;
+  message: string;
+  status: ContactStatus;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+
