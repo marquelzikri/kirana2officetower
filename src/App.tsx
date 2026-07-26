@@ -12,6 +12,7 @@ import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { PropertyDetailPage } from './pages/PropertyDetailPage';
 import { PropertyListingPage } from './pages/PropertyListingPage';
+import { ServicesPage } from './pages/ServicesPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +44,8 @@ export function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/properti" element={<PropertyListingPage />} />
             <Route path="/properti/:id" element={<PropertyDetailPage />} />
+            <Route path="/layanan" element={<ServicesPage />} />
+            <Route path="/services" element={<ServicesPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route
