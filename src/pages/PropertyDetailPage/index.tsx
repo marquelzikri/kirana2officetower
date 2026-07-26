@@ -4,12 +4,12 @@ import { useProperty, useProperties } from '@/hooks/useProperties';
 import { MainLayout } from '@/components/templates/MainLayout';
 import { Icon } from '@/components/atoms/Icon';
 import { ScheduleSurveyModal } from '@/components/molecules/ScheduleSurveyModal';
-import { PropertyBanner } from './PropertyDetailPage/components/PropertyBanner';
-import { PropertyGallerySection } from './PropertyDetailPage/components/PropertyGallerySection';
-import { PropertySpecsSection } from './PropertyDetailPage/components/PropertySpecsSection';
-import { PropertyCostCalculator } from './PropertyDetailPage/components/PropertyCostCalculator';
-import { PropertyInquirySidebar } from './PropertyDetailPage/components/PropertyInquirySidebar';
-import { SimilarPropertiesSection } from './PropertyDetailPage/components/SimilarPropertiesSection';
+import { PropertyBanner } from './components/organisms/PropertyBanner';
+import { PropertyGallerySection } from './components/organisms/PropertyGallerySection';
+import { PropertySpecsSection } from './components/molecules/PropertySpecsSection';
+import { PropertyCostCalculator } from './components/molecules/PropertyCostCalculator';
+import { PropertyInquirySidebar } from './components/organisms/PropertyInquirySidebar';
+import { SimilarPropertiesSection } from './components/organisms/SimilarPropertiesSection';
 import type { Property } from '@/types';
 
 export const PropertyDetailPage: React.FC = () => {

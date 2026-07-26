@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Property } from '@/types';
 import { Icon } from '@/components/atoms/Icon';
+import { PropertySpecItem } from '../atoms/PropertySpecItem';
 
 interface PropertySpecsSectionProps {
   property: Property;
@@ -30,14 +31,7 @@ export const PropertySpecsSection: React.FC<PropertySpecsSectionProps> = ({ prop
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {specs.map((item, index) => (
-          <div key={index} className="bg-surface p-4 rounded-xl border border-outline-variant/10">
-            <span className="block text-[11px] font-metadata uppercase text-on-surface-variant mb-1">
-              {item.label}
-            </span>
-            <span className="font-headline-md text-on-surface text-lg font-bold truncate block">
-              {item.value}
-            </span>
-          </div>
+          <PropertySpecItem key={index} label={item.label} value={item.value} />
         ))}
       </div>
     </div>
