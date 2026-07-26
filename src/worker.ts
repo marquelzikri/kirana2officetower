@@ -2,7 +2,9 @@ import { handleApiRequest } from "./api/routes";
 
 export interface Env {
   DB?: any;
+  kirana_properties_db?: any;
   MEDIA_BUCKET?: any;
+  kirana_property_media?: any;
   ASSETS: {
     fetch: (request: Request | string) => Promise<Response>;
   };

@@ -1,9 +1,16 @@
-import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
-import path from 'path';
+import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 
 export interface EnvWithMedia {
   DB?: any;
+  kirana_properties_db?: any;
   MEDIA_BUCKET?: any; // Cloudflare R2 Bucket binding
+  kirana_property_media?: any;
+}
+
+export function getMediaBucket(env?: EnvWithMedia): any {
+  if (!env) return null;
+  return env.MEDIA_BUCKET || env.kirana_property_media || null;
 }
 
 const UPLOADS_DIR = path.join(process.cwd(), 'uploads');
@@ -30,9 +37,11 @@ export async function uploadMediaToStorage(env: EnvWithMedia, file: File): Promi
   const key = `media-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${cleanExt || 'jpg'}`;
   const contentType = file.type || getContentTypeFromExt(cleanExt);
 
-  if (env.MEDIA_BUCKET) {
+  const bucket = getMediaBucket(env);
+
+  if (bucket) {
     // Cloudflare R2 S3 Object Storage
-    await env.MEDIA_BUCKET.put(key, buffer, {
+    await bucket.put(key, buffer, {
       httpMetadata: {
         contentType,
         cacheControl: 'public, max-age=31536000',
@@ -52,9 +61,10 @@ export async function uploadMediaToStorage(env: EnvWithMedia, file: File): Promi
  */
 export async function getMediaResponse(env: EnvWithMedia, key: string): Promise<Response> {
   const cleanKey = path.basename(key); // Sanitize path traversal
+  const bucket = getMediaBucket(env);
 
-  if (env.MEDIA_BUCKET) {
-    const object = await env.MEDIA_BUCKET.get(cleanKey);
+  if (bucket) {
+    const object = await bucket.get(cleanKey);
     if (!object) {
       return Response.json({ error: 'Media file not found' }, { status: 404 });
     }
