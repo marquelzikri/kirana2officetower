@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 
 import { ProtectedRoute } from './components/organisms/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
+import { AboutPage } from './pages/AboutPage';
 import { AdminPropertyPage } from './pages/AdminPropertyPage';
 import { ContactPage } from './pages/ContactPage';
 import { HomePage } from './pages/HomePage';
@@ -47,6 +48,8 @@ export function App() {
             <Route path="/properti/:id" element={<PropertyDetailPage />} />
             <Route path="/layanan" element={<ServicesPage />} />
             <Route path="/services" element={<ServicesPage />} />
+            <Route path="/tentang-kami" element={<AboutPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/kontak" element={<ContactPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/login" element={<LoginPage />} />
