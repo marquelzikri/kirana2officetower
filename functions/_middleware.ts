@@ -1,4 +1,4 @@
-import { handleApiRequest } from "../src/api/routes";
+import { handleApiRequest } from "@/api/routes";
 
 export const onRequest: PagesFunction = async (context) => {
   const apiResponse = await handleApiRequest(context.request);
