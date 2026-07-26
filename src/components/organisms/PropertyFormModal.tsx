@@ -3,6 +3,12 @@ import type { Property, OfficeZone, OfficeCondition, PropertyType } from '../../
 import { uploadMedia } from '../../services/propertyService';
 import { Icon } from '../atoms/Icon';
 import { Button } from '../atoms/Button';
+import { Input } from '../atoms/Input';
+import { Select } from '../atoms/Select';
+import { Textarea } from '../atoms/Textarea';
+import { Label } from '../atoms/Label';
+import { Checkbox } from '../atoms/Checkbox';
+import { FormSectionTitle } from '../atoms/FormSectionTitle';
 
 interface PropertyFormModalProps {
   isOpen: boolean;
@@ -210,6 +216,7 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
             </p>
           </div>
           <button
+            type="button"
             onClick={onClose}
             className="p-2 text-on-surface-variant hover:text-on-surface rounded-full hover:bg-outline-variant/10 transition-colors"
           >
@@ -227,108 +234,85 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
 
           {/* Section: Basic Information */}
           <div>
-            <h4 className="font-title-sm text-heritage-red font-semibold uppercase tracking-wider mb-4 border-b border-outline-variant/10 pb-2">
-              Informasi Dasar Unit
-            </h4>
+            <FormSectionTitle>Informasi Dasar Unit</FormSectionTitle>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Judul Properti <span className="text-red-500">*</span>
-                </label>
-                <input
+                <Label required>Judul Properti</Label>
+                <Input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Contoh: Kirana Two - High Zone Executive Suite"
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Kode Unit <span className="text-red-500">*</span>
-                </label>
-                <input
+                <Label required>Kode Unit</Label>
+                <Input
                   type="text"
                   value={unitCode}
                   onChange={(e) => setUnitCode(e.target.value)}
                   placeholder="KT-2801"
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Lantai
-                </label>
-                <input
+                <Label>Lantai</Label>
+                <Input
                   type="number"
                   value={floor}
                   onChange={(e) => setFloor(Number(e.target.value))}
                   min={1}
                   max={50}
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                 />
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Zona Gedung
-                </label>
-                <select
+                <Label>Zona Gedung</Label>
+                <Select
                   value={zone}
                   onChange={(e) => setZone(e.target.value as OfficeZone)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                 >
                   <option value="Low Zone">Low Zone</option>
                   <option value="Mid Zone">Mid Zone</option>
                   <option value="High Zone">High Zone</option>
                   <option value="Penthouse">Penthouse</option>
-                </select>
+                </Select>
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Kondisi Fit-Out
-                </label>
-                <select
+                <Label>Kondisi Fit-Out</Label>
+                <Select
                   value={condition}
                   onChange={(e) => setCondition(e.target.value as OfficeCondition)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                 >
                   <option value="Bare Shell">Bare Shell</option>
                   <option value="Semi-Fitted">Semi-Fitted</option>
                   <option value="Fully Fitted">Fully Fitted</option>
                   <option value="Serviced Office">Serviced Office</option>
-                </select>
+                </Select>
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Tipe Transaksi
-                </label>
-                <select
+                <Label>Tipe Transaksi</Label>
+                <Select
                   value={type}
                   onChange={(e) => setType(e.target.value as PropertyType)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                 >
                   <option value="For Rent">Disewakan (For Rent)</option>
                   <option value="For Sale">Dijual (For Sale)</option>
-                </select>
+                </Select>
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Kategori Space
-                </label>
-                <input
+                <Label>Kategori Space</Label>
+                <Input
                   type="text"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   placeholder="High Zone Suite"
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                 />
               </div>
             </div>
@@ -336,49 +320,38 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
 
           {/* Section: Size & Pricing */}
           <div>
-            <h4 className="font-title-sm text-heritage-red font-semibold uppercase tracking-wider mb-4 border-b border-outline-variant/10 pb-2">
-              Ukuran & Spesifikasi Harga
-            </h4>
+            <FormSectionTitle>Ukuran & Spesifikasi Harga</FormSectionTitle>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Luas Space (m²) <span className="text-red-500">*</span>
-                </label>
-                <input
+                <Label required>Luas Space (m²)</Label>
+                <Input
                   type="number"
                   value={sizeSqm}
                   onChange={(e) => setSizeSqm(Number(e.target.value))}
                   min={10}
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Harga Format Teks <span className="text-red-500">*</span>
-                </label>
-                <input
+                <Label required>Harga Format Teks</Label>
+                <Input
                   type="text"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="IDR 83.6 Juta / bulan"
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Harga Numerik (IDR)
-                </label>
-                <input
+                <Label>Harga Numerik (IDR)</Label>
+                <Input
                   type="number"
                   value={numericPrice}
                   onChange={(e) => setNumericPrice(Number(e.target.value))}
                   min={0}
                   step={1000000}
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                 />
               </div>
             </div>
@@ -387,9 +360,7 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
           {/* Section: Cloudflare R2 / S3 Media Uploads */}
           <div>
             <div className="flex items-center justify-between mb-4 border-b border-outline-variant/10 pb-2">
-              <h4 className="font-title-sm text-heritage-red font-semibold uppercase tracking-wider">
-                Upload Media (Cloudflare R2 Storage)
-              </h4>
+              <FormSectionTitle borderBottom={false}>Upload Media (Cloudflare R2 Storage)</FormSectionTitle>
               <span className="text-xs bg-emerald-500/10 text-emerald-700 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-500/20 flex items-center gap-1">
                 <Icon name="cloud_upload" className="text-sm" /> S3 / R2 Bucket Enabled
               </span>
@@ -398,9 +369,7 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
             <div className="space-y-5">
               {/* 1. Main Property Image */}
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-2">
-                  Gambar Utama Unit (Main Cover Photo)
-                </label>
+                <Label>Gambar Utama Unit (Main Cover Photo)</Label>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-2xl border border-outline-variant/30 bg-surface-variant/20">
                   {image ? (
                     <div className="relative group w-32 h-24 rounded-xl overflow-hidden border border-outline-variant/30 flex-shrink-0 bg-slate-100">
@@ -432,12 +401,12 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
                       <span className="text-xs text-on-surface-variant font-medium">atau gunakan URL di bawah</span>
                     </div>
 
-                    <input
+                    <Input
                       type="url"
                       value={image}
                       onChange={(e) => setImage(e.target.value)}
                       placeholder="https://images.unsplash.com/..."
-                      className="w-full px-3.5 py-2 rounded-xl border border-outline-variant/30 bg-surface text-sm focus:outline-none focus:border-heritage-red text-on-surface"
+                      className="text-sm px-3.5 py-2"
                     />
                   </div>
                 </div>
@@ -445,9 +414,7 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
 
               {/* 2. Gallery Images Upload */}
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-2">
-                  Galeri Foto Foto Interior & Eksterior
-                </label>
+                <Label>Galeri Foto Foto Interior & Eksterior</Label>
                 <div className="p-4 rounded-2xl border border-outline-variant/30 bg-surface-variant/20 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-on-surface-variant font-medium">
@@ -489,9 +456,7 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
 
               {/* 3. Floor Plan Image Upload */}
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-2">
-                  Gambar Denah / Floor Plan
-                </label>
+                <Label>Gambar Denah / Floor Plan</Label>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-2xl border border-outline-variant/30 bg-surface-variant/20">
                   {floorPlanImage ? (
                     <div className="relative group w-32 h-24 rounded-xl overflow-hidden border border-outline-variant/30 flex-shrink-0 bg-slate-100">
@@ -517,12 +482,12 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
                       />
                     </label>
 
-                    <input
+                    <Input
                       type="url"
                       value={floorPlanImage}
                       onChange={(e) => setFloorPlanImage(e.target.value)}
                       placeholder="https://images.unsplash.com/..."
-                      className="w-full px-3.5 py-2 rounded-xl border border-outline-variant/30 bg-surface text-sm focus:outline-none focus:border-heritage-red text-on-surface"
+                      className="text-sm px-3.5 py-2"
                     />
                   </div>
                 </div>
@@ -531,69 +496,58 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
               {/* Specs: View & Electricity */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-label-md font-semibold text-on-surface mb-1">
-                    Pemandangan (View)
-                  </label>
-                  <input
+                  <Label>Pemandangan (View)</Label>
+                  <Input
                     type="text"
                     value={viewType}
                     onChange={(e) => setViewType(e.target.value)}
                     placeholder="City Skyline North & Sea View"
-                    className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-label-md font-semibold text-on-surface mb-1">
-                    Kapasitas Listrik
-                  </label>
-                  <input
+                  <Label>Kapasitas Listrik</Label>
+                  <Input
                     type="text"
                     value={electricityCapacity}
                     onChange={(e) => setElectricityCapacity(e.target.value)}
                     placeholder="45 kVA"
-                    className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Fitur Unit (Satu fitur per baris)
-                </label>
-                <textarea
+                <Label>Fitur Unit (Satu fitur per baris)</Label>
+                <Textarea
                   value={features}
                   onChange={(e) => setFeatures(e.target.value)}
                   rows={3}
                   placeholder="Akses Lift Penumpang Kecepatan Tinggi&#10;AC VRV Independen&#10;Ruang Rapat Terpisah"
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface font-mono text-sm"
+                  className="font-mono text-sm"
                 />
               </div>
 
               <div>
-                <label className="block font-label-md font-semibold text-on-surface mb-1">
-                  Deskripsi Lengkap
-                </label>
-                <textarea
+                <Label>Deskripsi Lengkap</Label>
+                <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={3}
                   placeholder="Tulis deskripsi mendalam mengenai unit perkantoran ini..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-outline-variant/30 bg-surface focus:outline-none focus:border-heritage-red focus:ring-1 focus:ring-heritage-red text-on-surface"
                 />
               </div>
 
-              <div className="flex items-center space-x-2 pt-2">
-                <input
-                  type="checkbox"
+              <div className="pt-2">
+                <Checkbox
                   id="featured-checkbox"
                   checked={featured}
                   onChange={(e) => setFeatured(e.target.checked)}
-                  className="w-5 h-5 accent-heritage-red rounded cursor-pointer"
+                  label={
+                    <>
+                      Tampilkan sebagai <strong className="text-heritage-red">Properti Unggulan (Featured)</strong> di Beranda
+                    </>
+                  }
                 />
-                <label htmlFor="featured-checkbox" className="font-label-md text-on-surface cursor-pointer select-none">
-                  Tampilkan sebagai <strong className="text-heritage-red">Properti Unggulan (Featured)</strong> di Beranda
-                </label>
               </div>
             </div>
           </div>
