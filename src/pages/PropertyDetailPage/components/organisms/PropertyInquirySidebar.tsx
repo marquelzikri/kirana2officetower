@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from '@/components/atoms/Icon';
+import { Button } from '@/components/atoms/Button';
 
 interface PropertyInquirySidebarProps {
   onOpenSurveyModal: () => void;
@@ -22,13 +23,14 @@ export const PropertyInquirySidebar: React.FC<PropertyInquirySidebarProps> = ({ 
         </div>
 
         <div className="space-y-4 mb-6">
-          <button
+          <Button
+            variant="primary"
             onClick={onOpenSurveyModal}
-            className="w-full py-3.5 px-4 rounded-xl bg-heritage-red hover:bg-heritage-red-dark text-white font-label-md transition-all shadow-md flex items-center justify-center gap-2 text-body-md"
+            className="w-full !py-3.5 !rounded-xl text-body-md gap-2 shadow-md"
           >
             <Icon name="calendar_month" className="text-[20px]" />
             Jadwalkan Survey Unit
-          </button>
+          </Button>
 
           <a
             href="https://wa.me/6281234567890?text=Halo%20Kirana%20Two%20Office%20Tower,%20saya%20tertarik%20dengan%20unit%20"
