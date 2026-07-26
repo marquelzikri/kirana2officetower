@@ -1,7 +1,8 @@
 import React from 'react';
 import { Icon } from '@/components/atoms/Icon';
 import { Button } from '@/components/atoms/Button';
-import type { OfficeZone, OfficeCondition, PropertyType } from '@/types';
+import { Input } from '@/components/atoms/Input';
+import { Select } from '@/components/atoms/Select';
 
 export interface FilterState {
   searchQuery: string;
@@ -70,19 +71,19 @@ export const OfficeFilterBar: React.FC<OfficeFilterBarProps> = ({
         <div className="relative flex-grow">
           <Icon
             name="search"
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] z-10"
           />
-          <input
+          <Input
             type="text"
             value={filters.searchQuery}
             onChange={(e) => onFilterChange({ searchQuery: e.target.value })}
             placeholder="Cari berdasarkan Kode Unit (misal KT-2801), Lantai, atau Spesifikasi..."
-            className="w-full pl-12 pr-4 py-3.5 bg-surface border border-outline-variant/20 rounded-lg text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:border-heritage-red transition-colors text-body-md"
+            className="pl-12 pr-10 py-3.5 text-body-md"
           />
           {filters.searchQuery && (
             <button
               onClick={() => onFilterChange({ searchQuery: '' })}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface z-10"
             >
               <Icon name="close" className="text-[18px]" />
             </button>
@@ -91,10 +92,10 @@ export const OfficeFilterBar: React.FC<OfficeFilterBarProps> = ({
 
         {/* Sort Select */}
         <div className="w-full md:w-64">
-          <select
+          <Select
             value={filters.sortBy}
             onChange={(e) => onFilterChange({ sortBy: e.target.value })}
-            className="w-full px-4 py-3.5 bg-surface border border-outline-variant/20 rounded-lg text-on-surface focus:outline-none focus:border-heritage-red transition-colors font-label-md cursor-pointer"
+            className="py-3.5 font-label-md cursor-pointer"
           >
             <option value="default">Urutkan: Recomendasi</option>
             <option value="price-asc">Harga: Terendah ke Tertinggi</option>
@@ -102,7 +103,7 @@ export const OfficeFilterBar: React.FC<OfficeFilterBarProps> = ({
             <option value="size-desc">Luas: Terluas ke Terkecil</option>
             <option value="size-asc">Luas: Terkecil ke Terluas</option>
             <option value="floor-desc">Lantai: Teratas ke Terbawah</option>
-          </select>
+          </Select>
         </div>
       </div>
 
@@ -113,17 +114,17 @@ export const OfficeFilterBar: React.FC<OfficeFilterBarProps> = ({
           <label className="block text-[11px] font-metadata uppercase tracking-wider text-on-surface-variant mb-2">
             Zone / Elevasi Lantai
           </label>
-          <select
+          <Select
             value={filters.zone}
             onChange={(e) => onFilterChange({ zone: e.target.value })}
-            className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-md text-on-surface focus:outline-none focus:border-heritage-red text-body-sm cursor-pointer"
+            className="py-2.5 text-body-sm cursor-pointer"
           >
             {zones.map((z) => (
               <option key={z.value} value={z.value}>
                 {z.label}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
         {/* Condition Dropdown */}
@@ -131,17 +132,17 @@ export const OfficeFilterBar: React.FC<OfficeFilterBarProps> = ({
           <label className="block text-[11px] font-metadata uppercase tracking-wider text-on-surface-variant mb-2">
             Kondisi Fit-Out
           </label>
-          <select
+          <Select
             value={filters.condition}
             onChange={(e) => onFilterChange({ condition: e.target.value })}
-            className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-md text-on-surface focus:outline-none focus:border-heritage-red text-body-sm cursor-pointer"
+            className="py-2.5 text-body-sm cursor-pointer"
           >
             {conditions.map((c) => (
               <option key={c.value} value={c.value}>
                 {c.label}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
         {/* Size Range Dropdown */}
@@ -149,17 +150,17 @@ export const OfficeFilterBar: React.FC<OfficeFilterBarProps> = ({
           <label className="block text-[11px] font-metadata uppercase tracking-wider text-on-surface-variant mb-2">
             Luas Unit (m²)
           </label>
-          <select
+          <Select
             value={filters.sizeRange}
             onChange={(e) => onFilterChange({ sizeRange: e.target.value })}
-            className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-md text-on-surface focus:outline-none focus:border-heritage-red text-body-sm cursor-pointer"
+            className="py-2.5 text-body-sm cursor-pointer"
           >
             {sizeRanges.map((s) => (
               <option key={s.value} value={s.value}>
                 {s.label}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
         {/* Type / Status Dropdown */}
@@ -167,17 +168,17 @@ export const OfficeFilterBar: React.FC<OfficeFilterBarProps> = ({
           <label className="block text-[11px] font-metadata uppercase tracking-wider text-on-surface-variant mb-2">
             Status Transaksi
           </label>
-          <select
+          <Select
             value={filters.type}
             onChange={(e) => onFilterChange({ type: e.target.value })}
-            className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-md text-on-surface focus:outline-none focus:border-heritage-red text-body-sm cursor-pointer"
+            className="py-2.5 text-body-sm cursor-pointer"
           >
             {types.map((t) => (
               <option key={t.value} value={t.value}>
                 {t.label}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
 

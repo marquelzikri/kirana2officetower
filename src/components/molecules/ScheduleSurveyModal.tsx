@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import type { Property } from '@/types';
 import { Icon } from '@/components/atoms/Icon';
 import { Button } from '@/components/atoms/Button';
+import { Input } from '@/components/atoms/Input';
+import { Select } from '@/components/atoms/Select';
+import { Textarea } from '@/components/atoms/Textarea';
+import { Label } from '@/components/atoms/Label';
 
 interface ScheduleSurveyModalProps {
   property: Property | null;
@@ -76,121 +80,104 @@ export const ScheduleSurveyModal: React.FC<ScheduleSurveyModalProps> = ({
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-label-md text-on-surface mb-1">
-                    Nama Lengkap *
-                  </label>
-                  <input
+                  <Label>Nama Lengkap *</Label>
+                  <Input
                     type="text"
                     required
                     placeholder="Budi Santoso"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-lg text-on-surface focus:outline-none focus:border-heritage-red text-body-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-body-sm font-label-md text-on-surface mb-1">
-                    Nama Perusahaan / PT *
-                  </label>
-                  <input
+                  <Label>Nama Perusahaan / PT *</Label>
+                  <Input
                     type="text"
                     required
                     placeholder="PT Teknologi Nusantara"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-lg text-on-surface focus:outline-none focus:border-heritage-red text-body-sm"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-label-md text-on-surface mb-1">
-                    Email Kantor *
-                  </label>
-                  <input
+                  <Label>Email Kantor *</Label>
+                  <Input
                     type="email"
                     required
                     placeholder="budi@perusahaan.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-lg text-on-surface focus:outline-none focus:border-heritage-red text-body-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-body-sm font-label-md text-on-surface mb-1">
-                    No. WhatsApp / HP *
-                  </label>
-                  <input
+                  <Label>No. WhatsApp / HP *</Label>
+                  <Input
                     type="tel"
                     required
                     placeholder="081234567890"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-lg text-on-surface focus:outline-none focus:border-heritage-red text-body-sm"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-label-md text-on-surface mb-1">
-                    Rencana Tanggal Kunjungan *
-                  </label>
-                  <input
+                  <Label>Rencana Tanggal Kunjungan *</Label>
+                  <Input
                     type="date"
                     required
                     value={formData.surveyDate}
                     onChange={(e) => setFormData({ ...formData, surveyDate: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-lg text-on-surface focus:outline-none focus:border-heritage-red text-body-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-body-sm font-label-md text-on-surface mb-1">
-                    Waktu Kunjungan *
-                  </label>
-                  <select
+                  <Label>Waktu Kunjungan *</Label>
+                  <Select
                     value={formData.preferredTime}
                     onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-lg text-on-surface focus:outline-none focus:border-heritage-red text-body-sm cursor-pointer"
                   >
                     <option value="09:30 AM">Pagi (09.30 - 11.30 WIB)</option>
                     <option value="02:00 PM">Siang (14.00 - 16.00 WIB)</option>
                     <option value="04:00 PM">Sore (16.00 - 17.30 WIB)</option>
-                  </select>
+                  </Select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-body-sm font-label-md text-on-surface mb-1">
-                  Catatan Kebutuhan Khusus (Opsional)
-                </label>
-                <textarea
+                <Label>Catatan Kebutuhan Khusus (Opsional)</Label>
+                <Textarea
                   rows={3}
                   placeholder="Kebutuhan kapasitas meja, spesifikasi kelistrikan khusus, dll."
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-surface border border-outline-variant/20 rounded-lg text-on-surface focus:outline-none focus:border-heritage-red text-body-sm"
                 />
               </div>
 
               <div className="pt-2 flex justify-end gap-3">
-                <button
+                <Button
                   type="button"
+                  variant="outline"
+                  size="sm"
                   onClick={onClose}
-                  className="px-5 py-2.5 rounded-lg border border-outline-variant/20 font-label-md text-on-surface hover:bg-surface-container transition-colors text-body-sm"
+                  className="rounded-lg"
                 >
                   Batal
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
-                  className="px-6 py-2.5 rounded-lg bg-heritage-red hover:bg-heritage-red-dark text-white font-label-md transition-colors text-body-sm shadow-md"
+                  variant="primary"
+                  size="sm"
+                  className="rounded-lg shadow-md"
                 >
                   Konfirmasi Survey
-                </button>
+                </Button>
               </div>
             </form>
           </div>
