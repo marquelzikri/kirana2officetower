@@ -5,6 +5,8 @@ import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/Header';
 import { MobileMenu } from '@/components/organisms/MobileMenu';
 import { PropertyFormModal } from '@/components/organisms/PropertyFormModal';
+import { UserManagementModal } from '@/components/organisms/UserManagementModal';
+import { useAuth } from '@/context/AuthContext';
 import { NotificationToast } from '@/pages/AdminPropertyPage/components/molecules/NotificationToast';
 import { AdminFilterToolbar } from '@/pages/AdminPropertyPage/components/organisms/AdminFilterToolbar';
 import { AdminPropertyTable } from '@/pages/AdminPropertyPage/components/organisms/AdminPropertyTable';
@@ -20,6 +22,7 @@ import {
 import type { Property } from '@/types';
 
 export const AdminPropertyPage: React.FC = () => {
+  const { user, isOwner } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [zoneFilter, setZoneFilter] = useState('all');
@@ -28,6 +31,7 @@ export const AdminPropertyPage: React.FC = () => {
 
   // Modal States
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [deletingProperty, setDeletingProperty] = useState<Property | null>(null);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
@@ -141,11 +145,42 @@ export const AdminPropertyPage: React.FC = () => {
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
 
       <main className="flex-grow pt-28 pb-16">
-        <div className="max-w-container mx-auto px-4 md:px-margin-desktop">
+        <div className="max-w-container mx-auto px-4 md:px-margin-desktop space-y-6">
           <NotificationToast
             notification={notification}
             onClose={() => setNotification(null)}
           />
+
+          {/* Top Admin Banner with Role Badge */}
+          <div className="bg-white text-on-surface rounded-2xl p-6 shadow-sm border border-outline-variant/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center space-x-3 mb-1">
+                <h1 className="text-xl font-bold font-headline-md text-on-surface">Dashboard Manajemen Properti</h1>
+                <span
+                  className={`px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                    isOwner
+                      ? 'bg-purple-100 text-purple-800 border border-purple-200'
+                      : 'bg-blue-100 text-blue-800 border border-blue-200'
+                  }`}
+                >
+                  Peran: {user?.role}
+                </span>
+              </div>
+              <p className="text-on-surface-variant text-xs font-body-md">
+                Selamat datang kembali, <span className="text-on-surface font-semibold">{user?.name}</span> ({user?.username}).
+              </p>
+            </div>
+
+            {isOwner && (
+              <button
+                onClick={() => setIsUserModalOpen(true)}
+                className="px-4 py-2.5 bg-heritage-red hover:bg-red-800 text-white font-bold rounded-xl text-xs shadow-sm transition-all flex items-center space-x-2 shrink-0 self-start md:self-auto"
+              >
+                <span className="material-symbols-outlined text-sm">manage_accounts</span>
+                <span>Kelola Pengguna (Owner Only)</span>
+              </button>
+            )}
+          </div>
 
           <AdminStatsGrid
             totalCount={totalCount}
@@ -192,6 +227,11 @@ export const AdminPropertyPage: React.FC = () => {
         onClose={() => setDeletingProperty(null)}
         onConfirm={handleDeleteConfirm}
         isDeleting={deleteMutation.isPending}
+      />
+
+      <UserManagementModal
+        isOpen={isUserModalOpen}
+        onClose={() => setIsUserModalOpen(false)}
       />
 
       <Footer />

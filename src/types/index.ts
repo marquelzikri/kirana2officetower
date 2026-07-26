@@ -60,3 +60,35 @@ export interface NavItem {
   href: string;
   active?: boolean;
 }
+
+export type UserRole = 'owner' | 'admin';
+
+export interface User {
+  id: string;
+  username: string;
+  role: UserRole;
+  name: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface UserDbRow {
+  id: string;
+  username: string;
+  password_hash: string;
+  salt: string;
+  role: UserRole;
+  name: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface JwtPayload {
+  userId: string;
+  username: string;
+  role: UserRole;
+  name: string;
+  iat: number;
+  exp: number;
+}
+

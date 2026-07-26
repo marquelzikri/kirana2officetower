@@ -6,6 +6,7 @@ import type { PropertyFilterOptions } from './db/queries';
 import { buildFilteredPropertyQuery, INSERT_PROPERTY_QUERY, UPDATE_PROPERTY_QUERY } from './db/queries';
 import { initTableInSqlite } from './db/schema';
 
+export * from './db/users';
 export type { PropertyFilterOptions };
 
 export interface EnvWithDb {
@@ -20,7 +21,7 @@ export function getDb(env?: EnvWithDb): any {
 
 let localSqliteDb: any = null;
 
-async function getLocalSqliteDb(): Promise<any> {
+export async function getLocalSqliteDb(): Promise<any> {
   if (!localSqliteDb) {
     if (typeof Bun !== 'undefined') {
       const sqliteModule = 'bun:sqlite';
@@ -202,3 +203,6 @@ async function ensureSeededIfEmpty(env: EnvWithDb): Promise<void> {
     await seedPropertiesInDb(env, false);
   }
 }
+
+
+
