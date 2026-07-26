@@ -1,8 +1,9 @@
 import React from 'react';
-import type { Property } from '@/types';
-import { Icon } from '@/components/atoms/Icon';
+
 import { Button } from '@/components/atoms/Button';
+import { Icon } from '@/components/atoms/Icon';
 import { AdminPropertyTableRow } from '@/pages/AdminPropertyPage/components/molecules/AdminPropertyTableRow';
+import type { Property } from '@/types';
 
 interface AdminPropertyTableProps {
   properties: Property[];

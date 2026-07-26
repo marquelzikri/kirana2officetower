@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MainLayout } from '@/components/templates/MainLayout';
-import { PropertyListingSection } from '@/components/organisms/PropertyListingSection';
+
+import { Icon } from '@/components/atoms/Icon';
 import { CTASection } from '@/components/organisms/CTASection';
 import { NewsletterSection } from '@/components/organisms/NewsletterSection';
-import { Icon } from '@/components/atoms/Icon';
+import { PropertyListingSection } from '@/components/organisms/PropertyListingSection';
+import { MainLayout } from '@/components/templates/MainLayout';
 
 export const PropertyListingPage: React.FC = () => {
   return (

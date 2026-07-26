@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Logo } from '@/components/atoms/Logo';
+
 import { Icon } from '@/components/atoms/Icon';
-import { Button } from '@/components/atoms/Button';
+import { Logo } from '@/components/atoms/Logo';
 import { navItems } from '@/data/mockData';
 
 interface HeaderProps {

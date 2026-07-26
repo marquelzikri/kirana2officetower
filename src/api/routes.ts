@@ -1,13 +1,12 @@
 import {
+  createPropertyInDb,
+  deletePropertyFromDb,
+  type EnvWithDb,
   getPropertiesFromDb,
   getPropertyByIdFromDb,
-  createPropertyInDb,
-  updatePropertyInDb,
-  deletePropertyFromDb,
   seedPropertiesInDb,
-  type EnvWithDb
-} from "./db";
-import { uploadMediaToStorage, getMediaResponse } from "./media";
+  updatePropertyInDb} from "./db";
+import { getMediaResponse,uploadMediaToStorage } from "./media";
 
 export async function handleApiRequest(request: Request, env: EnvWithDb & { MEDIA_BUCKET?: any } = {}): Promise<Response | null> {
   const url = new URL(request.url);

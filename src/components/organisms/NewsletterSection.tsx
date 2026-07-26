@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { NewsletterForm } from '@/components/molecules/NewsletterForm';
 
 export const NewsletterSection: React.FC = () => {

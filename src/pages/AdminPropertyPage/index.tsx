@@ -1,23 +1,23 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import type { Property } from '@/types';
-import {
-  fetchProperties,
-  createProperty,
-  updateProperty,
-  deleteProperty,
-  seedProperties,
-} from '@/services/propertyService';
-import { Header } from '@/components/organisms/Header';
+
 import { Footer } from '@/components/organisms/Footer';
+import { Header } from '@/components/organisms/Header';
 import { MobileMenu } from '@/components/organisms/MobileMenu';
 import { PropertyFormModal } from '@/components/organisms/PropertyFormModal';
-
 import { NotificationToast } from '@/pages/AdminPropertyPage/components/molecules/NotificationToast';
-import { AdminStatsGrid } from '@/pages/AdminPropertyPage/components/organisms/AdminStatsGrid';
 import { AdminFilterToolbar } from '@/pages/AdminPropertyPage/components/organisms/AdminFilterToolbar';
 import { AdminPropertyTable } from '@/pages/AdminPropertyPage/components/organisms/AdminPropertyTable';
+import { AdminStatsGrid } from '@/pages/AdminPropertyPage/components/organisms/AdminStatsGrid';
 import { DeleteConfirmModal } from '@/pages/AdminPropertyPage/components/organisms/DeleteConfirmModal';
+import {
+  createProperty,
+  deleteProperty,
+  fetchProperties,
+  seedProperties,
+  updateProperty,
+} from '@/services/propertyService';
+import type { Property } from '@/types';
 
 export const AdminPropertyPage: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

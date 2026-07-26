@@ -1,6 +1,8 @@
 import React from 'react';
-import type { Property } from '@/types';
+
 import { Icon } from '@/components/atoms/Icon';
+import type { Property } from '@/types';
+
 import { PropertySpecItem } from '../atoms/PropertySpecItem';
 
 interface PropertySpecsSectionProps {

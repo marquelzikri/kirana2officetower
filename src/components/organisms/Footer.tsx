@@ -1,8 +1,9 @@
 import React from 'react';
-import { Logo } from '@/components/atoms/Logo';
+
 import { Icon } from '@/components/atoms/Icon';
+import { Logo } from '@/components/atoms/Logo';
 import { ContactItem } from '@/components/molecules/ContactItem';
-import { navItems, advisoryServices } from '@/data/mockData';
+import { advisoryServices,navItems } from '@/data/mockData';
 
 export const Footer: React.FC = () => {
   return (

@@ -1,8 +1,9 @@
 import React from 'react';
+
+import { FormSectionTitle } from '@/components/atoms/FormSectionTitle';
 import { Icon } from '@/components/atoms/Icon';
 import { Input } from '@/components/atoms/Input';
 import { Label } from '@/components/atoms/Label';
-import { FormSectionTitle } from '@/components/atoms/FormSectionTitle';
 
 interface PropertyMediaUploadFieldsProps {
   image: string;

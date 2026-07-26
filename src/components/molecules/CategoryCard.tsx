@@ -1,6 +1,7 @@
 import React from 'react';
-import { type Category } from '@/types';
+
 import { Icon } from '@/components/atoms/Icon';
+import { type Category } from '@/types';
 
 interface CategoryCardProps {
   category: Category;

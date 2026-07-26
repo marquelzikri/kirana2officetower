@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Input } from '@/components/atoms/Input';
+
 import { Button } from '@/components/atoms/Button';
+import { Input } from '@/components/atoms/Input';
 
 export const NewsletterForm: React.FC = () => {
   const [email, setEmail] = useState('');

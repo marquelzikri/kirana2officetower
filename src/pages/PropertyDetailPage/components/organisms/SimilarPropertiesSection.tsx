@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import type { Property } from '@/types';
+
 import { Icon } from '@/components/atoms/Icon';
 import { OfficePropertyCard } from '@/components/molecules/OfficePropertyCard';
+import type { Property } from '@/types';
 
 interface SimilarPropertiesSectionProps {
   properties: Property[];

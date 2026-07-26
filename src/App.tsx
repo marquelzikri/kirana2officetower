@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { HomePage } from './pages/HomePage';
-import { PropertyListingPage } from './pages/PropertyListingPage';
-import { PropertyDetailPage } from './pages/PropertyDetailPage';
-import { AdminPropertyPage } from './pages/AdminPropertyPage';
 import './tailwind.css';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+
+import { AdminPropertyPage } from './pages/AdminPropertyPage';
+import { HomePage } from './pages/HomePage';
+import { PropertyDetailPage } from './pages/PropertyDetailPage';
+import { PropertyListingPage } from './pages/PropertyListingPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
