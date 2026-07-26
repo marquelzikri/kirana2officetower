@@ -1,8 +1,14 @@
 import type { Property } from '@/types';
 import { featuredProperties } from '@/data/mockData';
+import { initTableInSqlite } from './db/schema';
+import { mapRowToProperty, mapPropertyToRowParams } from './db/mappers';
+import { buildFilteredPropertyQuery, INSERT_PROPERTY_QUERY, UPDATE_PROPERTY_QUERY } from './db/queries';
+import type { PropertyFilterOptions } from './db/queries';
+
+export type { PropertyFilterOptions };
 
 export interface EnvWithDb {
-  DB?: any; // Cloudflare D1Database binding
+  DB?: any;
   kirana_properties_db?: any;
 }
 
@@ -11,7 +17,6 @@ export function getDb(env?: EnvWithDb): any {
   return env.DB || env.kirana_properties_db || null;
 }
 
-// Local Bun SQLite fallback instance (persisted in .wrangler or local file)
 let localSqliteDb: any = null;
 
 async function getLocalSqliteDb(): Promise<any> {
@@ -28,210 +33,23 @@ async function getLocalSqliteDb(): Promise<any> {
   return localSqliteDb;
 }
 
-function initTableInSqlite(db: any) {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS properties (
-      id TEXT PRIMARY KEY,
-      title TEXT NOT NULL,
-      tower_name TEXT NOT NULL,
-      unit_code TEXT NOT NULL,
-      floor INTEGER NOT NULL,
-      zone TEXT NOT NULL,
-      condition TEXT NOT NULL,
-      type TEXT NOT NULL,
-      category TEXT NOT NULL,
-      location TEXT NOT NULL,
-      size_sqm REAL NOT NULL,
-      area TEXT NOT NULL,
-      price TEXT NOT NULL,
-      numeric_price REAL NOT NULL,
-      rental_rate_sqm REAL,
-      service_charge_sqm REAL,
-      ceiling_height TEXT,
-      electricity_capacity TEXT,
-      parking_ratio TEXT,
-      view_type TEXT,
-      image TEXT NOT NULL,
-      gallery_images TEXT,
-      floor_plan_image TEXT,
-      features TEXT,
-      description TEXT,
-      featured INTEGER DEFAULT 0,
-      bathrooms INTEGER,
-      bedrooms INTEGER,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-      updated_at TEXT DEFAULT CURRENT_TIMESTAMP
-    );
-  `);
-}
-
-// Map Database Row to Property object
-export function mapRowToProperty(row: any): Property {
-  return {
-    id: row.id,
-    title: row.title,
-    towerName: row.tower_name,
-    unitCode: row.unit_code,
-    floor: Number(row.floor),
-    zone: row.zone,
-    condition: row.condition,
-    type: row.type,
-    category: row.category,
-    location: row.location,
-    sizeSqm: Number(row.size_sqm),
-    area: row.area,
-    price: row.price,
-    numericPrice: Number(row.numeric_price),
-    rentalRateSqm: row.rental_rate_sqm ? Number(row.rental_rate_sqm) : undefined,
-    serviceChargeSqm: row.service_charge_sqm ? Number(row.service_charge_sqm) : undefined,
-    ceilingHeight: row.ceiling_height || undefined,
-    electricityCapacity: row.electricity_capacity || undefined,
-    parkingRatio: row.parking_ratio || undefined,
-    viewType: row.view_type || undefined,
-    image: row.image,
-    galleryImages: row.gallery_images ? JSON.parse(row.gallery_images) : [],
-    floorPlanImage: row.floor_plan_image || undefined,
-    features: row.features ? JSON.parse(row.features) : [],
-    description: row.description || undefined,
-    featured: Boolean(row.featured),
-    bathrooms: row.bathrooms ? Number(row.bathrooms) : undefined,
-    bedrooms: row.bedrooms ? Number(row.bedrooms) : undefined,
-  };
-}
-
-// Map Property object to Database row params
-export function mapPropertyToRowParams(property: Partial<Property>) {
-  return {
-    id: property.id,
-    title: property.title || '',
-    tower_name: property.towerName || 'Kirana Two Office Tower',
-    unit_code: property.unitCode || '',
-    floor: property.floor || 1,
-    zone: property.zone || 'Low Zone',
-    condition: property.condition || 'Bare Shell',
-    type: property.type || 'For Rent',
-    category: property.category || 'Office Tower',
-    location: property.location || 'Jl. Boulevard Timur No. 88, Kelapa Gading, Jakarta Utara',
-    size_sqm: property.sizeSqm || 0,
-    area: property.area || `${property.sizeSqm || 0} m²`,
-    price: property.price || '',
-    numeric_price: property.numericPrice || 0,
-    rental_rate_sqm: property.rentalRateSqm ?? null,
-    service_charge_sqm: property.serviceChargeSqm ?? null,
-    ceiling_height: property.ceilingHeight ?? null,
-    electricity_capacity: property.electricityCapacity ?? null,
-    parking_ratio: property.parkingRatio ?? null,
-    view_type: property.viewType ?? null,
-    image: property.image || '',
-    gallery_images: JSON.stringify(property.galleryImages || []),
-    floor_plan_image: property.floorPlanImage ?? null,
-    features: JSON.stringify(property.features || []),
-    description: property.description ?? null,
-    featured: property.featured ? 1 : 0,
-    bathrooms: property.bathrooms ?? null,
-    bedrooms: property.bedrooms ?? null,
-  };
-}
+export { mapRowToProperty, mapPropertyToRowParams };
 
 // 1. GET ALL PROPERTIES (WITH FILTERING & SORTING)
 export async function getPropertiesFromDb(
   env: EnvWithDb,
-  filters?: {
-    search?: string;
-    zone?: string;
-    condition?: string;
-    type?: string;
-    sizeRange?: string;
-    sortBy?: string;
-  }
+  filters?: PropertyFilterOptions
 ): Promise<Property[]> {
   await ensureSeededIfEmpty(env);
   const db = getDb(env);
+  const { query, params } = buildFilteredPropertyQuery(filters);
 
   if (db) {
-    // Cloudflare D1 Execution
-    let query = 'SELECT * FROM properties WHERE 1=1';
-    const params: any[] = [];
-
-    if (filters?.search?.trim()) {
-      const q = `%${filters.search.trim()}%`;
-      query += ` AND (LOWER(title) LIKE LOWER(?) OR LOWER(unit_code) LIKE LOWER(?) OR LOWER(location) LIKE LOWER(?) OR LOWER(description) LIKE LOWER(?))`;
-      params.push(q, q, q, q);
-    }
-
-    if (filters?.zone && filters.zone !== 'all') {
-      query += ` AND zone = ?`;
-      params.push(filters.zone);
-    }
-
-    if (filters?.condition && filters.condition !== 'all') {
-      query += ` AND condition = ?`;
-      params.push(filters.condition);
-    }
-
-    if (filters?.type && filters.type !== 'all') {
-      query += ` AND type = ?`;
-      params.push(filters.type);
-    }
-
-    if (filters?.sizeRange && filters.sizeRange !== 'all') {
-      if (filters.sizeRange === 'small') query += ` AND size_sqm < 150`;
-      else if (filters.sizeRange === 'medium') query += ` AND size_sqm >= 150 AND size_sqm <= 300`;
-      else if (filters.sizeRange === 'large') query += ` AND size_sqm > 300 AND size_sqm <= 600`;
-      else if (filters.sizeRange === 'whole') query += ` AND size_sqm > 600`;
-    }
-
-    if (filters?.sortBy === 'price-asc') query += ` ORDER BY numeric_price ASC`;
-    else if (filters?.sortBy === 'price-desc') query += ` ORDER BY numeric_price DESC`;
-    else if (filters?.sortBy === 'size-desc') query += ` ORDER BY size_sqm DESC`;
-    else if (filters?.sortBy === 'size-asc') query += ` ORDER BY size_sqm ASC`;
-    else if (filters?.sortBy === 'floor-desc') query += ` ORDER BY floor DESC`;
-    else query += ` ORDER BY created_at DESC`;
-
     const stmt = db.prepare(query);
     const { results } = await stmt.bind(...params).all();
     return (results || []).map(mapRowToProperty);
   } else {
-    // Local Bun SQLite Execution
     const localDb = await getLocalSqliteDb();
-    let query = 'SELECT * FROM properties WHERE 1=1';
-    const params: any[] = [];
-
-    if (filters?.search?.trim()) {
-      const q = `%${filters.search.trim()}%`;
-      query += ` AND (LOWER(title) LIKE LOWER(?) OR LOWER(unit_code) LIKE LOWER(?) OR LOWER(location) LIKE LOWER(?) OR LOWER(description) LIKE LOWER(?))`;
-      params.push(q, q, q, q);
-    }
-
-    if (filters?.zone && filters.zone !== 'all') {
-      query += ` AND zone = ?`;
-      params.push(filters.zone);
-    }
-
-    if (filters?.condition && filters.condition !== 'all') {
-      query += ` AND condition = ?`;
-      params.push(filters.condition);
-    }
-
-    if (filters?.type && filters.type !== 'all') {
-      query += ` AND type = ?`;
-      params.push(filters.type);
-    }
-
-    if (filters?.sizeRange && filters.sizeRange !== 'all') {
-      if (filters.sizeRange === 'small') query += ` AND size_sqm < 150`;
-      else if (filters.sizeRange === 'medium') query += ` AND size_sqm >= 150 AND size_sqm <= 300`;
-      else if (filters.sizeRange === 'large') query += ` AND size_sqm > 300 AND size_sqm <= 600`;
-      else if (filters.sizeRange === 'whole') query += ` AND size_sqm > 600`;
-    }
-
-    if (filters?.sortBy === 'price-asc') query += ` ORDER BY numeric_price ASC`;
-    else if (filters?.sortBy === 'price-desc') query += ` ORDER BY numeric_price DESC`;
-    else if (filters?.sortBy === 'size-desc') query += ` ORDER BY size_sqm DESC`;
-    else if (filters?.sortBy === 'size-asc') query += ` ORDER BY size_sqm ASC`;
-    else if (filters?.sortBy === 'floor-desc') query += ` ORDER BY floor DESC`;
-    else query += ` ORDER BY created_at DESC`;
-
     const stmt = localDb.prepare(query);
     const rows = stmt.all(...params);
     return rows.map(mapRowToProperty);
@@ -252,7 +70,10 @@ export async function getPropertyByIdFromDb(env: EnvWithDb, id: string): Promise
 }
 
 // 3. CREATE PROPERTY
-export async function createPropertyInDb(env: EnvWithDb, propertyData: Omit<Property, 'id'> & { id?: string }): Promise<Property> {
+export async function createPropertyInDb(
+  env: EnvWithDb,
+  propertyData: Omit<Property, 'id'> & { id?: string }
+): Promise<Property> {
   const id = propertyData.id || `kt-${Date.now().toString(36)}`;
   const property: Property = {
     ...propertyData,
@@ -262,21 +83,6 @@ export async function createPropertyInDb(env: EnvWithDb, propertyData: Omit<Prop
   };
 
   const p = mapPropertyToRowParams(property);
-
-  const query = `
-    INSERT INTO properties (
-      id, title, tower_name, unit_code, floor, zone, condition, type, category,
-      location, size_sqm, area, price, numeric_price, rental_rate_sqm, service_charge_sqm,
-      ceiling_height, electricity_capacity, parking_ratio, view_type, image,
-      gallery_images, floor_plan_image, features, description, featured, bathrooms, bedrooms
-    ) VALUES (
-      ?, ?, ?, ?, ?, ?, ?, ?, ?,
-      ?, ?, ?, ?, ?, ?, ?,
-      ?, ?, ?, ?, ?,
-      ?, ?, ?, ?, ?, ?, ?
-    );
-  `;
-
   const values: any[] = [
     p.id, p.title, p.tower_name, p.unit_code, p.floor, p.zone, p.condition, p.type, p.category,
     p.location, p.size_sqm, p.area, p.price, p.numeric_price, p.rental_rate_sqm, p.service_charge_sqm,
@@ -286,17 +92,21 @@ export async function createPropertyInDb(env: EnvWithDb, propertyData: Omit<Prop
 
   const db = getDb(env);
   if (db) {
-    await db.prepare(query).bind(...values).run();
+    await db.prepare(INSERT_PROPERTY_QUERY).bind(...values).run();
   } else {
     const localDb = await getLocalSqliteDb();
-    localDb.prepare(query).run(...values);
+    localDb.prepare(INSERT_PROPERTY_QUERY).run(...values);
   }
 
   return property;
 }
 
 // 4. UPDATE PROPERTY
-export async function updatePropertyInDb(env: EnvWithDb, id: string, propertyData: Partial<Property>): Promise<Property> {
+export async function updatePropertyInDb(
+  env: EnvWithDb,
+  id: string,
+  propertyData: Partial<Property>
+): Promise<Property> {
   const existing = await getPropertyByIdFromDb(env, id);
   if (!existing) {
     throw new Error(`Property with id ${id} not found`);
@@ -310,17 +120,6 @@ export async function updatePropertyInDb(env: EnvWithDb, id: string, propertyDat
   };
 
   const p = mapPropertyToRowParams(updated);
-
-  const query = `
-    UPDATE properties SET
-      title = ?, tower_name = ?, unit_code = ?, floor = ?, zone = ?, condition = ?, type = ?, category = ?,
-      location = ?, size_sqm = ?, area = ?, price = ?, numeric_price = ?, rental_rate_sqm = ?, service_charge_sqm = ?,
-      ceiling_height = ?, electricity_capacity = ?, parking_ratio = ?, view_type = ?, image = ?,
-      gallery_images = ?, floor_plan_image = ?, features = ?, description = ?, featured = ?, bathrooms = ?, bedrooms = ?,
-      updated_at = CURRENT_TIMESTAMP
-    WHERE id = ?;
-  `;
-
   const values: any[] = [
     p.title, p.tower_name, p.unit_code, p.floor, p.zone, p.condition, p.type, p.category,
     p.location, p.size_sqm, p.area, p.price, p.numeric_price, p.rental_rate_sqm, p.service_charge_sqm,
@@ -331,10 +130,10 @@ export async function updatePropertyInDb(env: EnvWithDb, id: string, propertyDat
 
   const db = getDb(env);
   if (db) {
-    await db.prepare(query).bind(...values).run();
+    await db.prepare(UPDATE_PROPERTY_QUERY).bind(...values).run();
   } else {
     const localDb = await getLocalSqliteDb();
-    localDb.prepare(query).run(...values);
+    localDb.prepare(UPDATE_PROPERTY_QUERY).run(...values);
   }
 
   return updated;
