@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '../../../../components/atoms/Icon';
+import { Icon } from '@/components/atoms/Icon';
 
 interface NotificationToastProps {
   notification: { type: 'success' | 'error'; message: string } | null;

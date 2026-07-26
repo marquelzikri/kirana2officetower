@@ -1,5 +1,5 @@
 import React from 'react';
-import { AdminStatCard } from '../atoms/AdminStatCard';
+import { AdminStatCard } from '@/pages/AdminPropertyPage/components/atoms/AdminStatCard';
 
 interface AdminStatsGridProps {
   totalCount: number;
