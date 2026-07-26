@@ -9,6 +9,7 @@
     "build": "bun run build:css && bun build ./src/index.html --outdir=dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*'",
     "start": "NODE_ENV=production bun src/index.ts",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "preview": "bun run build && wrangler dev",
     "deploy": "bun run build && wrangler deploy",
     "deploy:pages": "bun run build && wrangler pages deploy dist"
@@ -25,10 +26,13 @@
     "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0",
     "autoprefixer": "^10.5.4",
+    "eslint": "^10.8.0",
     "postcss": "^8.5.23",
     "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2",
+    "typescript": "^5.7.0",
     "wrangler": "^4.0.0"
   }
 }
