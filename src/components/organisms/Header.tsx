@@ -91,15 +91,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                 <span>Keluar</span>
               </button>
             </div>
-          ) : (
-            <Link
-              to="/login"
-              className="px-4 py-2 bg-heritage-red hover:bg-red-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5"
-            >
-              <span className="material-symbols-outlined text-sm">login</span>
-              <span>Login Admin</span>
-            </Link>
-          )}
+          ) : null}
         </nav>
 
         {onOpenMobileMenu && (
