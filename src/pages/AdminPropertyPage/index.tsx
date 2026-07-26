@@ -7,6 +7,7 @@ import { MobileMenu } from '@/components/organisms/MobileMenu';
 import { PropertyFormModal } from '@/components/organisms/PropertyFormModal';
 import { UserManagementModal } from '@/components/organisms/UserManagementModal';
 import { useAuth } from '@/context/AuthContext';
+import { AdminInsightSection } from '@/pages/AdminPropertyPage/components/AdminInsightSection';
 import { AdminHeaderBanner } from '@/pages/AdminPropertyPage/components/molecules/AdminHeaderBanner';
 import { AdminTabNavigation } from '@/pages/AdminPropertyPage/components/molecules/AdminTabNavigation';
 import { NotificationToast } from '@/pages/AdminPropertyPage/components/molecules/NotificationToast';
@@ -23,7 +24,7 @@ import type { ContactMessage, ContactStatus, Property } from '@/types';
 export const AdminPropertyPage: React.FC = () => {
   const { user, isOwner } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'properties' | 'contacts'>('properties');
+  const [activeTab, setActiveTab] = useState<'properties' | 'contacts' | 'insights'>('properties');
 
   const [searchQuery, setSearchQuery] = useState('');
   const [zoneFilter, setZoneFilter] = useState('all');
@@ -203,6 +204,10 @@ export const AdminPropertyPage: React.FC = () => {
               onViewContact={handleViewContact}
               onDeleteContact={(c) => setDeletingContact(c)}
             />
+          )}
+
+          {activeTab === 'insights' && (
+            <AdminInsightSection />
           )}
         </div>
       </main>
