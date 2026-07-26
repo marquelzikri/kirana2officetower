@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from './components/organisms/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import { AdminPropertyPage } from './pages/AdminPropertyPage';
+import { ContactPage } from './pages/ContactPage';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
@@ -46,6 +47,8 @@ export function App() {
             <Route path="/properti/:id" element={<PropertyDetailPage />} />
             <Route path="/layanan" element={<ServicesPage />} />
             <Route path="/services" element={<ServicesPage />} />
+            <Route path="/kontak" element={<ContactPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route
@@ -63,5 +66,6 @@ export function App() {
     </QueryClientProvider>
   );
 }
+
 
 export default App;

@@ -37,7 +37,7 @@ export const HeroSection: React.FC = () => {
             <Button asAnchor href="#properti" variant="primary" size="lg">
               LIHAT PROPERTI
             </Button>
-            <Button asAnchor href="#kontak" variant="outline" size="lg">
+            <Button asAnchor href="kontak" variant="outline" size="lg">
               HUBUNGI KONSULTAN
             </Button>
           </div>

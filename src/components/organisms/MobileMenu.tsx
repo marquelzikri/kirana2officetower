@@ -67,7 +67,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         <div className="mt-auto pt-6">
           <Button
             asAnchor
-            href="/#kontak"
+            href="/kontak"
             variant="primary"
             className="w-full text-center justify-center py-5"
             onClick={onClose}
@@ -75,6 +75,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             HUBUNGI KAMI
           </Button>
         </div>
+
       </div>
     </div>
   );

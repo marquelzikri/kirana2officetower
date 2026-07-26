@@ -2,10 +2,11 @@ import React from 'react';
 
 import { Button } from '@/components/atoms/Button';
 import { Icon } from '@/components/atoms/Icon';
-import type { Property } from '@/types';
+import type { ContactMessage, Property } from '@/types';
 
 interface DeleteConfirmModalProps {
-  property: Property | null;
+  property?: Property | null;
+  contact?: ContactMessage | null;
   onClose: () => void;
   onConfirm: () => void;
   isDeleting: boolean;
@@ -13,11 +14,12 @@ interface DeleteConfirmModalProps {
 
 export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
   property,
+  contact,
   onClose,
   onConfirm,
   isDeleting,
 }) => {
-  if (!property) return null;
+  if (!property && !contact) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
@@ -26,12 +28,22 @@ export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
           <Icon name="warning" className="text-3xl" />
           <h3 className="font-heading-sm font-bold text-on-surface">Konfirmasi Hapus</h3>
         </div>
-        <p className="font-body-md text-on-surface-variant mb-6">
-          Apakah Anda yakin ingin menghapus properti{' '}
-          <strong className="text-on-surface">
-            {property.unitCode} ({property.title})
-          </strong>{' '}
-          dari Cloudflare D1 database? Tindakan ini tidak dapat dibatalkan.
+        <p className="font-body-md text-on-surface-variant mb-6 text-xs leading-relaxed">
+          {property && (
+            <>
+              Apakah Anda yakin ingin menghapus properti{' '}
+              <strong className="text-on-surface">
+                {property.unitCode} ({property.title})
+              </strong>{' '}
+              dari database? Tindakan ini tidak dapat dibatalkan.
+            </>
+          )}
+          {contact && (
+            <>
+              Apakah Anda yakin ingin menghapus pesan kontak dari{' '}
+              <strong className="text-on-surface">{contact.name}</strong> ({contact.subject})? Tindakan ini tidak dapat dibatalkan.
+            </>
+          )}
         </p>
         <div className="flex items-center justify-end space-x-3">
           <Button variant="outline" onClick={onClose} disabled={isDeleting}>
