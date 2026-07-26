@@ -1,15 +1,19 @@
 import { applySecurityHeaders, authenticateRequest } from './auth';
 import { handleAuthRoutes } from './authRoutes';
 import {
+  createContactInDb,
   createPropertyInDb,
   createUserInDb,
+  deleteContactFromDb,
   deletePropertyFromDb,
   deleteUserFromDb,
   type EnvWithDb,
   getAllUsersFromDb,
+  getContactsFromDb,
   getPropertiesFromDb,
   getPropertyByIdFromDb,
   seedPropertiesInDb,
+  updateContactStatusInDb,
   updatePropertyInDb,
 } from './db';
 import { getMediaResponse, uploadMediaToStorage } from './media';
@@ -222,6 +226,78 @@ export async function handleApiRequest(
     }
   }
 
+  // --- CONTACT & INQUIRY ENDPOINTS ---
+
+  // POST /api/contacts - Submit contact form (Public)
+  if (pathname === '/api/contacts' && request.method === 'POST') {
+    try {
+      const body: any = await request.json();
+      const { name, email, phone, company, subject, message } = body || {};
+
+      if (!name || !email || !phone || !subject || !message) {
+        return jsonResponse(
+          { error: 'Field wajib diisi: nama, email, no. telepon/WA, subjek, dan pesan' },
+          { status: 400 }
+        );
+      }
+
+      const created = await createContactInDb(env, { name, email, phone, company, subject, message });
+      return jsonResponse({ success: true, contact: created }, { status: 201 });
+    } catch (err: any) {
+      return jsonResponse({ error: err.message || 'Gagal mengirim pesan kontak' }, { status: 500 });
+    }
+  }
+
+  // GET /api/contacts - Fetch contact list (Admin & Owner)
+  if (pathname === '/api/contacts' && request.method === 'GET') {
+    const { errorResponse } = await authenticateRequest(request, ['admin', 'owner']);
+    if (errorResponse) return errorResponse;
+
+    try {
+      const statusFilter = url.searchParams.get('status') || 'all';
+      const contacts = await getContactsFromDb(env, statusFilter);
+      return jsonResponse({ contacts });
+    } catch (err: any) {
+      return jsonResponse({ error: err.message || 'Gagal mengambil daftar pesan kontak' }, { status: 500 });
+    }
+  }
+
+  // PATCH or PUT /api/contacts/:id - Update status (Admin & Owner)
+  const contactMatch = pathname.match(/^\/api\/contacts\/([^/]+)$/);
+  if (contactMatch && contactMatch[1]) {
+    const contactId = contactMatch[1];
+
+    if (request.method === 'PATCH' || request.method === 'PUT') {
+      const { errorResponse } = await authenticateRequest(request, ['admin', 'owner']);
+      if (errorResponse) return errorResponse;
+
+      try {
+        const body: any = await request.json();
+        if (!body.status || !['unread', 'read', 'replied'].includes(body.status)) {
+          return jsonResponse({ error: 'Status harus salah satu dari: unread, read, replied' }, { status: 400 });
+        }
+
+        const updated = await updateContactStatusInDb(env, contactId, body.status);
+        return jsonResponse({ success: true, contact: updated });
+      } catch (err: any) {
+        return jsonResponse({ error: err.message || 'Gagal memperbarui status pesan' }, { status: 500 });
+      }
+    }
+
+    if (request.method === 'DELETE') {
+      const { errorResponse } = await authenticateRequest(request, ['admin', 'owner']);
+      if (errorResponse) return errorResponse;
+
+      try {
+        await deleteContactFromDb(env, contactId);
+        return jsonResponse({ success: true, message: 'Pesan kontak berhasil dihapus' });
+      } catch (err: any) {
+        return jsonResponse({ error: err.message || 'Gagal menghapus pesan kontak' }, { status: 500 });
+      }
+    }
+  }
+
   // Not an API route managed here
   return null;
 }
+
