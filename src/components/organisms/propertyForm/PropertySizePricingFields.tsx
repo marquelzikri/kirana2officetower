@@ -1,7 +1,8 @@
 import React from 'react';
+
+import { FormSectionTitle } from '@/components/atoms/FormSectionTitle';
 import { Input } from '@/components/atoms/Input';
 import { Label } from '@/components/atoms/Label';
-import { FormSectionTitle } from '@/components/atoms/FormSectionTitle';
 
 interface PropertySizePricingFieldsProps {
   sizeSqm: number;

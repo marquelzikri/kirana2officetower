@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Icon } from '@/components/atoms/Icon';
 import { SectionHeader } from '@/components/atoms/SectionHeader';
 import { OfficePropertyCard } from '@/components/molecules/OfficePropertyCard';
 import { ScheduleSurveyModal } from '@/components/molecules/ScheduleSurveyModal';
-import { Icon } from '@/components/atoms/Icon';
 import { useProperties } from '@/hooks/useProperties';
 import type { Property } from '@/types';
 

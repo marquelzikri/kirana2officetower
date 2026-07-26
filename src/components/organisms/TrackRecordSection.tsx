@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { SectionHeader } from '@/components/atoms/SectionHeader';
 import { StatItem } from '@/components/molecules/StatItem';
 import { trackRecordStats } from '@/data/mockData';

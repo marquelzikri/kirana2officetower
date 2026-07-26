@@ -1,7 +1,8 @@
 import React from 'react';
-import { SectionHeader } from '@/components/atoms/SectionHeader';
+
 import { Button } from '@/components/atoms/Button';
 import { Icon } from '@/components/atoms/Icon';
+import { SectionHeader } from '@/components/atoms/SectionHeader';
 
 export const CTASection: React.FC = () => {
   return (

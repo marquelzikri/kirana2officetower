@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { SectionHeader } from '@/components/atoms/SectionHeader';
 import { CategoryCard } from '@/components/molecules/CategoryCard';
 import { propertyCategories } from '@/data/mockData';
