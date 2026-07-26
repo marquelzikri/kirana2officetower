@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useProperty, useProperties } from '@/hooks/useProperties';
-import { MainLayout } from '@/components/templates/MainLayout';
+import { Link,useParams } from 'react-router-dom';
+
 import { Icon } from '@/components/atoms/Icon';
 import { ScheduleSurveyModal } from '@/components/molecules/ScheduleSurveyModal';
+import { MainLayout } from '@/components/templates/MainLayout';
+import { useProperties,useProperty } from '@/hooks/useProperties';
+import type { Property } from '@/types';
+
+import { PropertyCostCalculator } from './components/molecules/PropertyCostCalculator';
+import { PropertySpecsSection } from './components/molecules/PropertySpecsSection';
 import { PropertyBanner } from './components/organisms/PropertyBanner';
 import { PropertyGallerySection } from './components/organisms/PropertyGallerySection';
-import { PropertySpecsSection } from './components/molecules/PropertySpecsSection';
-import { PropertyCostCalculator } from './components/molecules/PropertyCostCalculator';
 import { PropertyInquirySidebar } from './components/organisms/PropertyInquirySidebar';
 import { SimilarPropertiesSection } from './components/organisms/SimilarPropertiesSection';
-import type { Property } from '@/types';
 
 export const PropertyDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

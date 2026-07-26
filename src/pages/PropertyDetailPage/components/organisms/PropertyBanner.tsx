@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import type { Property } from '@/types';
+
 import { Badge } from '@/components/atoms/Badge';
 import { Icon } from '@/components/atoms/Icon';
+import type { Property } from '@/types';
 
 interface PropertyBannerProps {
   property: Property;
