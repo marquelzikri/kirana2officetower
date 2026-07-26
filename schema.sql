@@ -36,3 +36,18 @@ CREATE TABLE IF NOT EXISTS properties (
 CREATE INDEX IF NOT EXISTS idx_properties_zone ON properties(zone);
 CREATE INDEX IF NOT EXISTS idx_properties_condition ON properties(condition);
 CREATE INDEX IF NOT EXISTS idx_properties_type ON properties(type);
+
+-- Cloudflare D1 SQL Schema for Users
+CREATE TABLE IF NOT EXISTS users (
+  id TEXT PRIMARY KEY,
+  username TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  salt TEXT NOT NULL,
+  role TEXT NOT NULL CHECK(role IN ('owner', 'admin')),
+  name TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
+
