@@ -1,24 +1,27 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "kirana2officetower",
-  "main": "src/worker.ts",
-  "compatibility_date": "2026-07-01",
-  "assets": {
-    "directory": "./dist",
-    "binding": "ASSETS",
-    "not_found_handling": "single-page-application"
-  },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "kirana_properties_db",
-      "database_id": "kirana_properties_db_id"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "MEDIA_BUCKET",
-      "bucket_name": "kirana-property-media"
-    }
-  ]
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "kirana2officetower",
+	"main": "src/worker.ts",
+	"compatibility_date": "2026-07-01",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "kirana_properties_db",
+			"database_id": "922ed1e2-11c1-44ff-b6dd-0de9f58cdd6e"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "MEDIA_BUCKET",
+			"bucket_name": "kirana-property-media"
+		}
+	]
 }

@@ -4,9 +4,11 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.3-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Bun](https://img.shields.io/badge/Bun-v1.3-000000?logo=bun&logoColor=white)](https://bun.sh/)
-[![Cloudflare](https://img.shields.io/badge/Cloudflare_Workers-v4-F38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
+[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-v4-F38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
+[![Cloudflare R2](https://img.shields.io/badge/Cloudflare_R2-Object_Storage-F38020?logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/r2/)
+[![Cloudflare D1](https://img.shields.io/badge/Cloudflare_D1-Serverless_SQL-F38020?logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/d1/)
 
-A modern, high-performance commercial real estate web application for **Kirana Two Office Tower (Intijaya Property)**, designed for searching, filtering, and inquiring about Grade-A office suites and commercial spaces in Kelapa Gading, North Jakarta.
+A modern, high-performance commercial real estate web application for **Kirana Two Office Tower (Intijaya Property)**, designed for searching, filtering, managing, and inquiring about Grade-A office suites and commercial spaces in Kelapa Gading, North Jakarta.
 
 ---
 
@@ -15,6 +17,8 @@ A modern, high-performance commercial real estate web application for **Kirana T
 - 🏢 **Grade-A Property Catalog**: Comprehensive directory of High Zone, Mid Zone, Low Zone, Penthouse, and Commercial Executive Suites.
 - 🔍 **Advanced Property Search & Filter**: Real-time filtering by office zone (`Low Zone`, `Mid Zone`, `High Zone`, `Penthouse`), space condition (`Bare Shell`, `Semi-Fitted`, `Fully Fitted`, `Serviced Office`), size range, and sorting options (price & size).
 - 📐 **Detailed Property View**: Unit-level specifications (NLA area, rental rate per m², service charge, ceiling height, electrical capacity, parking ratio, view orientation) with image galleries and floor plan blueprints.
+- 📝 **Full CRUD Management**: Create, read, update, and delete property listings stored dynamically in Cloudflare D1 (or local Bun SQLite fallback).
+- 🖼️ **Cloudflare R2 Image & Media Uploads**: High-performance image upload and media serving backed by Cloudflare R2 bucket storage.
 - ⚛️ **Atomic Design Component System**: Built modularly following Atomic Design principles (`atoms`, `molecules`, `organisms`, `templates`).
 - ⚡ **Unified API & Edge Deployment**: Shared Web-standard Request/Response router powering local Bun server and serverless **Cloudflare Workers**.
 - 🛡️ **Strict Type Safety**: Fully typed with TypeScript 5, `@cloudflare/workers-types`, and strict `verbatimModuleSyntax` compliance.
@@ -30,8 +34,10 @@ A modern, high-performance commercial real estate web application for **Kirana T
 | **Routing** | [React Router v7](https://reactrouter.com/) |
 | **State & Data Fetching** | [TanStack React Query v5](https://tanstack.com/query) |
 | **Styling & Icons** | [Tailwind CSS v4](https://tailwindcss.com/), Google Fonts (*Playfair Display*, *Hanken Grotesk*), Material Symbols Outlined |
+| **Database** | [Cloudflare D1](https://developers.cloudflare.com/d1/) (Production) / Bun SQLite (Local Development) |
+| **Media Storage** | [Cloudflare R2 Object Storage](https://developers.cloudflare.com/r2/) (Production) / Local Disk (Local Development) |
 | **Type Definitions** | [TypeScript 5](https://www.typescriptlang.org/), `@cloudflare/workers-types`, `@types/react` |
-| **Infrastructure / Host** | [Cloudflare Workers with Static Assets](https://workers.cloudflare.com/), [Cloudflare Pages](https://pages.cloudflare.com/), Wrangler CLI v4 (`v4.114.0`) |
+| **Infrastructure / Host** | [Cloudflare Workers with Assets](https://workers.cloudflare.com/), Wrangler CLI v4 (`v4.114.0`) |
 
 ---
 
@@ -41,11 +47,13 @@ A modern, high-performance commercial real estate web application for **Kirana T
 kiranatwoofficetower/
 ├── src/
 │   ├── api/                # Shared Web API routes logic
-│   │   └── routes.ts       # Endpoint router (/api/properties)
+│   │   ├── db.ts           # D1 & SQLite database access layer
+│   │   ├── media.ts        # R2 Bucket & local media storage layer
+│   │   └── routes.ts       # Endpoint router (/api/properties, /api/upload)
 │   ├── components/         # Atomic Design Architecture
-│   │   ├── atoms/          # Badges, Buttons, Inputs, Labels
-│   │   ├── molecules/      # Property Cards, Search Inputs, Stat Items
-│   │   ├── organisms/      # Header, Footer, Hero, FeaturedListings, PropertyListings
+│   │   ├── atoms/          # Badges, Buttons, Inputs, Labels, Modals
+│   │   ├── molecules/      # Property Cards, Search Inputs, Stat Items, Form Inputs
+│   │   ├── organisms/      # Header, Footer, Hero, FeaturedListings, PropertyListings, PropertyFormModal
 │   │   └── templates/      # MainLayout, PropertyLayout
 │   ├── data/               # Mock property database & navigation config
 │   │   └── mockData.ts
@@ -60,11 +68,11 @@ kiranatwoofficetower/
 ├── functions/              # Cloudflare Pages Functions middleware
 │   └── _middleware.ts
 ├── dist/                   # Production build output
-├── wrangler.jsonc          # Cloudflare Workers & Assets configuration
+├── schema.sql              # Cloudflare D1 SQL table schema
+├── wrangler.jsonc          # Cloudflare Workers, Assets, D1 & R2 configuration
 ├── tsconfig.json           # TypeScript configuration with @cloudflare/workers-types
 ├── package.json            # Scripts & dependencies
-├── tailwind.config.js      # Tailwind CSS configuration
-└── README-CLOUDFLARE.md    # Dedicated Cloudflare deployment guide
+└── README.md               # Project documentation
 ```
 
 ---
@@ -73,19 +81,26 @@ kiranatwoofficetower/
 
 The server exposes RESTful API endpoints used by the frontend:
 
-### 1. `GET /api/properties`
-Fetch filtered and sorted property listings.
+### 1. Property Management Endpoints
 
-**Query Parameters:**
-- `search` *(string)*: Text search matching title, unit code, location, or floor.
-- `zone` *(string)*: `Low Zone` | `Mid Zone` | `High Zone` | `Penthouse` | `all`
-- `condition` *(string)*: `Bare Shell` | `Semi-Fitted` | `Fully Fitted` | `Serviced Office` | `all`
-- `type` *(string)*: `For Rent` | `For Sale` | `all`
-- `sizeRange` *(string)*: `small` (<150m²) | `medium` (150-300m²) | `large` (300-600m²) | `whole` (>600m²) | `all`
-- `sortBy` *(string)*: `price-asc` | `price-desc` | `size-asc` | `size-desc` | `floor-desc` | `default`
+- **`GET /api/properties`**: Fetch filtered and sorted property listings.
+  - **Query Parameters**:
+    - `search` *(string)*: Text search matching title, unit code, location, or description.
+    - `zone` *(string)*: `Low Zone` | `Mid Zone` | `High Zone` | `Penthouse` | `all`
+    - `condition` *(string)*: `Bare Shell` | `Semi-Fitted` | `Fully Fitted` | `Serviced Office` | `all`
+    - `type` *(string)*: `For Rent` | `For Sale` | `all`
+    - `sizeRange` *(string)*: `small` (<150m²) | `medium` (150-300m²) | `large` (300-600m²) | `whole` (>600m²) | `all`
+    - `sortBy` *(string)*: `price-asc` | `price-desc` | `size-asc` | `size-desc` | `floor-desc` | `default`
+- **`GET /api/properties/:id`**: Fetch single property details by ID.
+- **`POST /api/properties`**: Create a new property listing.
+- **`PUT /api/properties/:id`**: Update an existing property listing.
+- **`DELETE /api/properties/:id`**: Delete a property listing.
+- **`POST /api/properties/seed`**: Re-seed database with default Kirana Two property listings.
 
-### 2. `GET /api/properties/:id`
-Fetch single property details by ID (e.g. `/api/properties/p-101`).
+### 2. Media & Upload Endpoints
+
+- **`POST /api/upload`**: Upload a file (`multipart/form-data` with field `file`) to Cloudflare R2 storage (or local disk in dev mode). Returns `{ "url": "/api/media/..." }`.
+- **`GET /api/media/:key`**: Serve uploaded media file from Cloudflare R2 bucket.
 
 ---
 
@@ -94,75 +109,130 @@ Fetch single property details by ID (e.g. `/api/properties/p-101`).
 ### Prerequisites
 
 - [Bun](https://bun.sh/) (v1.1+) or Node.js (v18+)
+- [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/) (`npm install -g wrangler` or `bun add -d wrangler`)
 
-### Installation
+### Local Development
 
 ```bash
-# Clone repository
-git clone https://github.com/marquelzikri/kirana2officetower.git
-cd kiranatwoofficetower
-
-# Install dependencies
+# 1. Install dependencies
 bun install
-```
 
-### Running Locally
-
-```bash
-# Development server (Hot Module Reloading enabled)
+# 2. Run local development server (with hot module replacement)
 bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Type Checking
+### Type Checking & Building
 
 ```bash
-# Run TypeScript static type check across the entire project
+# Static TypeScript type check
 bun run typecheck
+
+# Production build for frontend assets
+bun run build
 ```
 
 ---
 
-## 📦 Building for Production
+## ☁️ Cloudflare Deployment Guide
+
+To deploy this application to **Cloudflare Workers** with full **D1 Database** and **Cloudflare R2 Object Storage** support:
+
+### 1. Log in to Cloudflare
 
 ```bash
-# Compile Tailwind CSS and bundle JS/HTML output into ./dist
-bun run build
-
-# Run local production server with Bun
-bun start
+npx wrangler login
 ```
 
----
+### 2. Enable Cloudflare R2 Storage (Required for Media Uploads)
 
-## ☁️ Deployment to Cloudflare Infrastructure
+Create an R2 Bucket for storing property photos, floor plans, and media uploads:
 
-This project is optimized for deployment on Cloudflare using **Wrangler v4**.
+```bash
+# Create the R2 bucket in your Cloudflare account
+npx wrangler r2 bucket create kirana-property-media
+```
 
-### Quick Deployment via Wrangler CLI
+Verify `wrangler.jsonc` contains the binding for `MEDIA_BUCKET`:
 
-1. **Log in to Cloudflare**:
-   ```bash
-   npx wrangler login
-   ```
+```jsonc
+"r2_buckets": [
+  {
+    "binding": "MEDIA_BUCKET",
+    "bucket_name": "kirana-property-media"
+  }
+]
+```
 
-2. **Deploy to Cloudflare Workers with Assets**:
-   ```bash
-   bun run deploy
-   ```
+### 3. Setup Cloudflare D1 Database (Required for Property Listings)
 
-3. **Deploy to Cloudflare Pages**:
-   ```bash
-   bun run deploy:pages
-   ```
+Create a serverless D1 SQLite database in Cloudflare:
 
-4. **Local Cloudflare Emulation**:
-   ```bash
-   bun run preview
-   ```
+```bash
+# Create D1 database
+npx wrangler d1 create kirana_properties_db
+```
 
-For detailed Cloudflare CI/CD setup and environment settings, see [README-CLOUDFLARE.md](file:///Users/cirrus/IdeaProjects/kiranatwoofficetower/README-CLOUDFLARE.md).
+Copy the returned `database_id` into your `wrangler.jsonc`:
+
+```jsonc
+"d1_databases": [
+  {
+    "binding": "DB",
+    "database_name": "kirana_properties_db",
+    "database_id": "<YOUR_D1_DATABASE_ID>"
+  }
+]
+```
+
+Initialize the database schema:
+
+```bash
+# Run schema migration on production D1 database
+npx wrangler d1 execute kirana_properties_db --remote --file=schema.sql
+```
+
+### 4. Wrangler Configuration Summary (`wrangler.jsonc`)
+
+Ensure `wrangler.jsonc` includes Node compatibility flags and bindings:
+
+```jsonc
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kirana2officetower",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-07-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kirana_properties_db",
+      "database_id": "<YOUR_D1_DATABASE_ID>"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA_BUCKET",
+      "bucket_name": "kirana-property-media"
+    }
+  ]
+}
+```
+
+### 5. Deploy to Production
+
+```bash
+# Build frontend assets and deploy worker to Cloudflare
+bun run deploy
+```
 
 ---
 
