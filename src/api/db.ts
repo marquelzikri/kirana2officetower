@@ -1,9 +1,10 @@
-import type { Property } from '@/types';
 import { featuredProperties } from '@/data/mockData';
-import { initTableInSqlite } from './db/schema';
-import { mapRowToProperty, mapPropertyToRowParams } from './db/mappers';
-import { buildFilteredPropertyQuery, INSERT_PROPERTY_QUERY, UPDATE_PROPERTY_QUERY } from './db/queries';
+import type { Property } from '@/types';
+
+import { mapPropertyToRowParams,mapRowToProperty } from './db/mappers';
 import type { PropertyFilterOptions } from './db/queries';
+import { buildFilteredPropertyQuery, INSERT_PROPERTY_QUERY, UPDATE_PROPERTY_QUERY } from './db/queries';
+import { initTableInSqlite } from './db/schema';
 
 export type { PropertyFilterOptions };
 
@@ -33,7 +34,7 @@ async function getLocalSqliteDb(): Promise<any> {
   return localSqliteDb;
 }
 
-export { mapRowToProperty, mapPropertyToRowParams };
+export { mapPropertyToRowParams,mapRowToProperty };
 
 // 1. GET ALL PROPERTIES (WITH FILTERING & SORTING)
 export async function getPropertiesFromDb(
@@ -184,7 +185,7 @@ async function ensureSeededIfEmpty(env: EnvWithDb): Promise<void> {
     try {
       const res = await db.prepare('SELECT COUNT(*) as count FROM properties').first();
       count = res?.count ? Number(res.count) : 0;
-    } catch (err) {
+    } catch {
       return;
     }
   } else {
@@ -192,7 +193,7 @@ async function ensureSeededIfEmpty(env: EnvWithDb): Promise<void> {
       const localDb = await getLocalSqliteDb();
       const res = localDb.prepare('SELECT COUNT(*) as count FROM properties').get() as any;
       count = res?.count ? Number(res.count) : 0;
-    } catch (err) {
+    } catch {
       return;
     }
   }

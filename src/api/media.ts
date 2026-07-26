@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync,writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 export interface EnvWithMedia {
@@ -21,7 +21,7 @@ if (typeof process !== 'undefined' && typeof process.cwd === 'function') {
     if (!existsSync(UPLOADS_DIR)) {
       mkdirSync(UPLOADS_DIR, { recursive: true });
     }
-  } catch (err) {
+  } catch {
     // Ignore if running inside restricted worker runtime
   }
 }

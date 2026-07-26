@@ -1,7 +1,8 @@
-import type { Category, Service, Stat, NavItem } from '@/types';
-import { featuredProperties, allProperties } from './mockProperties';
+import type { Category, NavItem,Service, Stat } from '@/types';
 
-export { featuredProperties, allProperties };
+import { allProperties,featuredProperties } from './mockProperties';
+
+export { allProperties,featuredProperties };
 
 export const navItems: NavItem[] = [
   { label: 'Beranda', href: '/' },
