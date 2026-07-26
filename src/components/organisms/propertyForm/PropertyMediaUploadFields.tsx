@@ -79,10 +79,10 @@ export const PropertyMediaUploadFields: React.FC<PropertyMediaUploadFieldsProps>
               </div>
 
               <Input
-                type="url"
+                type="text"
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
-                placeholder="https://images.unsplash.com/..."
+                placeholder="https://images.unsplash.com/... atau /api/media/..."
                 className="text-sm px-3.5 py-2"
               />
             </div>
@@ -160,10 +160,10 @@ export const PropertyMediaUploadFields: React.FC<PropertyMediaUploadFieldsProps>
               </label>
 
               <Input
-                type="url"
+                type="text"
                 value={floorPlanImage}
                 onChange={(e) => setFloorPlanImage(e.target.value)}
-                placeholder="https://images.unsplash.com/..."
+                placeholder="https://images.unsplash.com/... atau /api/media/..."
                 className="text-sm px-3.5 py-2"
               />
             </div>
