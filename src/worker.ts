@@ -1,6 +1,8 @@
 import { handleApiRequest } from "./api/routes";
 
 export interface Env {
+  DB?: any;
+  MEDIA_BUCKET?: any;
   ASSETS: {
     fetch: (request: Request | string) => Promise<Response>;
   };
@@ -9,7 +11,7 @@ export interface Env {
 export default {
   async fetch(request: Request, env: Env, _ctx: unknown): Promise<Response> {
     // 1. Check if the request matches an API endpoint
-    const apiResponse = await handleApiRequest(request);
+    const apiResponse = await handleApiRequest(request, env);
     if (apiResponse) {
       return apiResponse;
     }
