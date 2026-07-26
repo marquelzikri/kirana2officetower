@@ -1,17 +1,20 @@
-import React, { useEffect,useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { Icon } from '@/components/atoms/Icon';
 import { Logo } from '@/components/atoms/Logo';
+import { useAuth } from '@/context/AuthContext';
 import { navItems } from '@/data/mockData';
 
 interface HeaderProps {
-  onOpenMobileMenu: () => void;
+  onOpenMobileMenu?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,6 +28,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
 
   return (
     <header
@@ -40,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
           <Logo />
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
           {navItems.map((item) => {
             const isActive =
               (item.href === '/' && location.pathname === '/') ||
@@ -60,16 +68,55 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
               </Link>
             );
           })}
+
+          {/* User Auth Section */}
+          {isAuthenticated && user ? (
+            <div className="flex items-center space-x-3 border-l border-slate-200 pl-6">
+              <div className="flex flex-col text-right">
+                <span className="text-xs font-bold text-navy truncate max-w-[120px]">{user.name}</span>
+                <span
+                  className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded text-white self-end ${
+                    user.role === 'owner' ? 'bg-purple-600' : 'bg-blue-600'
+                  }`}
+                >
+                  {user.role}
+                </span>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition-all flex items-center space-x-1"
+                title="Keluar / Logout"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span>Keluar</span>
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="px-4 py-2 bg-navy text-white hover:bg-navy-light rounded-xl text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              </svg>
+              <span>Login Admin</span>
+            </Link>
+          )}
         </nav>
 
-        <button
-          onClick={onOpenMobileMenu}
-          className="md:hidden text-on-surface p-2 focus:outline-none"
-          aria-label="Toggle Navigation Menu"
-        >
-          <Icon name="menu" className="text-[28px]" />
-        </button>
+        {onOpenMobileMenu && (
+          <button
+            onClick={onOpenMobileMenu}
+            className="md:hidden text-on-surface p-2 focus:outline-none"
+            aria-label="Toggle Navigation Menu"
+          >
+            <Icon name="menu" className="text-[28px]" />
+          </button>
+        )}
       </div>
     </header>
   );
 };
+
