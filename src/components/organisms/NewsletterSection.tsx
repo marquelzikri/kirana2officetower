@@ -1,5 +1,5 @@
 import React from 'react';
-import { NewsletterForm } from '../molecules/NewsletterForm';
+import { NewsletterForm } from '@/components/molecules/NewsletterForm';
 
 export const NewsletterSection: React.FC = () => {
   return (

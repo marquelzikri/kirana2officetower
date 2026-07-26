@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Header } from '../organisms/Header';
-import { MobileMenu } from '../organisms/MobileMenu';
-import { Footer } from '../organisms/Footer';
+import { Header } from '@/components/organisms/Header';
+import { MobileMenu } from '@/components/organisms/MobileMenu';
+import { Footer } from '@/components/organisms/Footer';
 
 interface MainLayoutProps {
   children: React.ReactNode;

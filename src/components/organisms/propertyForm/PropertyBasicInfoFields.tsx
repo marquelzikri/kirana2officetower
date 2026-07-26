@@ -1,9 +1,9 @@
 import React from 'react';
-import type { OfficeZone, OfficeCondition, PropertyType } from '../../../types';
-import { Input } from '../../atoms/Input';
-import { Select } from '../../atoms/Select';
-import { Label } from '../../atoms/Label';
-import { FormSectionTitle } from '../../atoms/FormSectionTitle';
+import type { OfficeZone, OfficeCondition, PropertyType } from '@/types';
+import { Input } from '@/components/atoms/Input';
+import { Select } from '@/components/atoms/Select';
+import { Label } from '@/components/atoms/Label';
+import { FormSectionTitle } from '@/components/atoms/FormSectionTitle';
 
 interface PropertyBasicInfoFieldsProps {
   title: string;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Icon } from '../atoms/Icon';
-import { Button } from '../atoms/Button';
-import type { OfficeZone, OfficeCondition, PropertyType } from '../../types';
+import { Icon } from '@/components/atoms/Icon';
+import { Button } from '@/components/atoms/Button';
+import type { OfficeZone, OfficeCondition, PropertyType } from '@/types';
 
 export interface FilterState {
   searchQuery: string;

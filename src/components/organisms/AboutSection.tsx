@@ -1,6 +1,6 @@
 import React from 'react';
-import { SectionHeader } from '../atoms/SectionHeader';
-import { Icon } from '../atoms/Icon';
+import { SectionHeader } from '@/components/atoms/SectionHeader';
+import { Icon } from '@/components/atoms/Icon';
 
 export const AboutSection: React.FC = () => {
   return (

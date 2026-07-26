@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Logo } from '../atoms/Logo';
-import { Icon } from '../atoms/Icon';
-import { Button } from '../atoms/Button';
-import { navItems } from '../../data/mockData';
+import { Logo } from '@/components/atoms/Logo';
+import { Icon } from '@/components/atoms/Icon';
+import { Button } from '@/components/atoms/Button';
+import { navItems } from '@/data/mockData';
 
 interface MobileMenuProps {
   isOpen: boolean;

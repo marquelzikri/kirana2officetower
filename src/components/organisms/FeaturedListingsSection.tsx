@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SectionHeader } from '../atoms/SectionHeader';
-import { OfficePropertyCard } from '../molecules/OfficePropertyCard';
-import { ScheduleSurveyModal } from '../molecules/ScheduleSurveyModal';
-import { Icon } from '../atoms/Icon';
-import { useProperties } from '../../hooks/useProperties';
-import type { Property } from '../../types';
+import { SectionHeader } from '@/components/atoms/SectionHeader';
+import { OfficePropertyCard } from '@/components/molecules/OfficePropertyCard';
+import { ScheduleSurveyModal } from '@/components/molecules/ScheduleSurveyModal';
+import { Icon } from '@/components/atoms/Icon';
+import { useProperties } from '@/hooks/useProperties';
+import type { Property } from '@/types';
 
 export const FeaturedListingsSection: React.FC = () => {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
