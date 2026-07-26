@@ -1,8 +1,8 @@
 import React from 'react';
-import { SectionHeader } from '../atoms/SectionHeader';
-import { Button } from '../atoms/Button';
-import { StatItem } from '../molecules/StatItem';
-import { heroStats } from '../../data/mockData';
+import { SectionHeader } from '@/components/atoms/SectionHeader';
+import { Button } from '@/components/atoms/Button';
+import { StatItem } from '@/components/molecules/StatItem';
+import { heroStats } from '@/data/mockData';
 
 export const HeroSection: React.FC = () => {
   return (

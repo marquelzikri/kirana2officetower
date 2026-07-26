@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import type { Property } from '../../types';
+import type { Property } from '@/types';
 import {
   fetchProperties,
   createProperty,
   updateProperty,
   deleteProperty,
   seedProperties,
-} from '../../services/propertyService';
-import { Header } from '../../components/organisms/Header';
-import { Footer } from '../../components/organisms/Footer';
-import { MobileMenu } from '../../components/organisms/MobileMenu';
-import { PropertyFormModal } from '../../components/organisms/PropertyFormModal';
+} from '@/services/propertyService';
+import { Header } from '@/components/organisms/Header';
+import { Footer } from '@/components/organisms/Footer';
+import { MobileMenu } from '@/components/organisms/MobileMenu';
+import { PropertyFormModal } from '@/components/organisms/PropertyFormModal';
 
-import { NotificationToast } from './components/molecules/NotificationToast';
-import { AdminStatsGrid } from './components/organisms/AdminStatsGrid';
-import { AdminFilterToolbar } from './components/organisms/AdminFilterToolbar';
-import { AdminPropertyTable } from './components/organisms/AdminPropertyTable';
-import { DeleteConfirmModal } from './components/organisms/DeleteConfirmModal';
+import { NotificationToast } from '@/pages/AdminPropertyPage/components/molecules/NotificationToast';
+import { AdminStatsGrid } from '@/pages/AdminPropertyPage/components/organisms/AdminStatsGrid';
+import { AdminFilterToolbar } from '@/pages/AdminPropertyPage/components/organisms/AdminFilterToolbar';
+import { AdminPropertyTable } from '@/pages/AdminPropertyPage/components/organisms/AdminPropertyTable';
+import { DeleteConfirmModal } from '@/pages/AdminPropertyPage/components/organisms/DeleteConfirmModal';
 
 export const AdminPropertyPage: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

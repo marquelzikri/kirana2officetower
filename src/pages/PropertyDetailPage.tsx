@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useProperty, useProperties } from '../hooks/useProperties';
-import { MainLayout } from '../components/templates/MainLayout';
-import { Badge } from '../components/atoms/Badge';
-import { Icon } from '../components/atoms/Icon';
-import { Button } from '../components/atoms/Button';
-import { ScheduleSurveyModal } from '../components/molecules/ScheduleSurveyModal';
-import { OfficePropertyCard } from '../components/molecules/OfficePropertyCard';
+import { useProperty, useProperties } from '@/hooks/useProperties';
+import { MainLayout } from '@/components/templates/MainLayout';
+import { Badge } from '@/components/atoms/Badge';
+import { Icon } from '@/components/atoms/Icon';
+import { Button } from '@/components/atoms/Button';
+import { ScheduleSurveyModal } from '@/components/molecules/ScheduleSurveyModal';
+import { OfficePropertyCard } from '@/components/molecules/OfficePropertyCard';
 
 export const PropertyDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

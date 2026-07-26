@@ -1,12 +1,12 @@
 import React from 'react';
-import type { Property } from '../../types';
-import { usePropertyForm } from '../../hooks/usePropertyForm';
-import { Icon } from '../atoms/Icon';
-import { Button } from '../atoms/Button';
-import { PropertyBasicInfoFields } from './propertyForm/PropertyBasicInfoFields';
-import { PropertySizePricingFields } from './propertyForm/PropertySizePricingFields';
-import { PropertyMediaUploadFields } from './propertyForm/PropertyMediaUploadFields';
-import { PropertySpecsFeaturesFields } from './propertyForm/PropertySpecsFeaturesFields';
+import type { Property } from '@/types';
+import { usePropertyForm } from '@/hooks/usePropertyForm';
+import { Icon } from '@/components/atoms/Icon';
+import { Button } from '@/components/atoms/Button';
+import { PropertyBasicInfoFields } from '@/components/organisms/propertyForm/PropertyBasicInfoFields';
+import { PropertySizePricingFields } from '@/components/organisms/propertyForm/PropertySizePricingFields';
+import { PropertyMediaUploadFields } from '@/components/organisms/propertyForm/PropertyMediaUploadFields';
+import { PropertySpecsFeaturesFields } from '@/components/organisms/propertyForm/PropertySpecsFeaturesFields';
 
 export interface PropertyFormModalProps {
   isOpen: boolean;

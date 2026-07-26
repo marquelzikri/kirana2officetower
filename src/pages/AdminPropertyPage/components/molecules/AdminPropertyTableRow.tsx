@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Property } from '../../../../types';
-import { Icon } from '../../../../components/atoms/Icon';
+import type { Property } from '@/types';
+import { Icon } from '@/components/atoms/Icon';
 
 interface AdminPropertyTableRowProps {
   property: Property;

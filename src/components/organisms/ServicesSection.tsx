@@ -1,7 +1,7 @@
 import React from 'react';
-import { SectionHeader } from '../atoms/SectionHeader';
-import { ServiceCard } from '../molecules/ServiceCard';
-import { advisoryServices } from '../../data/mockData';
+import { SectionHeader } from '@/components/atoms/SectionHeader';
+import { ServiceCard } from '@/components/molecules/ServiceCard';
+import { advisoryServices } from '@/data/mockData';
 
 export const ServicesSection: React.FC = () => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
-import { SectionHeader } from '../atoms/SectionHeader';
-import { CategoryCard } from '../molecules/CategoryCard';
-import { propertyCategories } from '../../data/mockData';
+import { SectionHeader } from '@/components/atoms/SectionHeader';
+import { CategoryCard } from '@/components/molecules/CategoryCard';
+import { propertyCategories } from '@/data/mockData';
 
 export const CategoriesSection: React.FC = () => {
   return (

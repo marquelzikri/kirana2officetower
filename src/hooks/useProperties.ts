@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchProperties, fetchPropertyById, type PropertyFilterParams } from '../services/propertyService';
+import { fetchProperties, fetchPropertyById, type PropertyFilterParams } from '@/services/propertyService';
 
 /**
  * React Query hook to list down available properties via native Bun REST API.

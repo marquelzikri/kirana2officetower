@@ -1,8 +1,8 @@
 import React from 'react';
-import { Input } from '../../atoms/Input';
-import { Textarea } from '../../atoms/Textarea';
-import { Label } from '../../atoms/Label';
-import { Checkbox } from '../../atoms/Checkbox';
+import { Input } from '@/components/atoms/Input';
+import { Textarea } from '@/components/atoms/Textarea';
+import { Label } from '@/components/atoms/Label';
+import { Checkbox } from '@/components/atoms/Checkbox';
 
 interface PropertySpecsFeaturesFieldsProps {
   viewType: string;

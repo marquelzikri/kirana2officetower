@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import type { Property, OfficeZone, OfficeCondition, PropertyType } from '../types';
-import { uploadMedia } from '../services/propertyService';
+import type { Property, OfficeZone, OfficeCondition, PropertyType } from '@/types';
+import { uploadMedia } from '@/services/propertyService';
 
 interface UsePropertyFormProps {
   initialData?: Property | null;

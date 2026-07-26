@@ -1,7 +1,7 @@
 import React from 'react';
-import type { Property } from '../../types';
-import { Badge } from '../atoms/Badge';
-import { Icon } from '../atoms/Icon';
+import type { Property } from '@/types';
+import { Badge } from '@/components/atoms/Badge';
+import { Icon } from '@/components/atoms/Icon';
 
 interface PropertyCardProps {
   property: Property;

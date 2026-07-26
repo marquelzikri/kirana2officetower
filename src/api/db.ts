@@ -1,5 +1,5 @@
-import type { Property } from '../types';
-import { featuredProperties } from '../data/mockData';
+import type { Property } from '@/types';
+import { featuredProperties } from '@/data/mockData';
 
 export interface EnvWithDb {
   DB?: any; // Cloudflare D1Database binding

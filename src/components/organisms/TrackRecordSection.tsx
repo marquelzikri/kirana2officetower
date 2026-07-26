@@ -1,7 +1,7 @@
 import React from 'react';
-import { SectionHeader } from '../atoms/SectionHeader';
-import { StatItem } from '../molecules/StatItem';
-import { trackRecordStats } from '../../data/mockData';
+import { SectionHeader } from '@/components/atoms/SectionHeader';
+import { StatItem } from '@/components/molecules/StatItem';
+import { trackRecordStats } from '@/data/mockData';
 
 export const TrackRecordSection: React.FC = () => {
   return (

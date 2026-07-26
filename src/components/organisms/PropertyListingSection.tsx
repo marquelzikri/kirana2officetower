@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import type { Property } from '../../types';
-import { useProperties } from '../../hooks/useProperties';
-import { OfficeFilterBar, type FilterState } from '../molecules/OfficeFilterBar';
-import { OfficePropertyCard } from '../molecules/OfficePropertyCard';
-import { ScheduleSurveyModal } from '../molecules/ScheduleSurveyModal';
-import { Icon } from '../atoms/Icon';
+import type { Property } from '@/types';
+import { useProperties } from '@/hooks/useProperties';
+import { OfficeFilterBar, type FilterState } from '@/components/molecules/OfficeFilterBar';
+import { OfficePropertyCard } from '@/components/molecules/OfficePropertyCard';
+import { ScheduleSurveyModal } from '@/components/molecules/ScheduleSurveyModal';
+import { Icon } from '@/components/atoms/Icon';
 
 const ITEMS_PER_PAGE = 6;
 

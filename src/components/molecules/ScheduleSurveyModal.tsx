@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import type { Property } from '../../types';
-import { Icon } from '../atoms/Icon';
-import { Button } from '../atoms/Button';
+import type { Property } from '@/types';
+import { Icon } from '@/components/atoms/Icon';
+import { Button } from '@/components/atoms/Button';
 
 interface ScheduleSurveyModalProps {
   property: Property | null;
