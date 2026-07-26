@@ -44,7 +44,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
           {navItems.map((item) => {
             const isActive =
               (item.href === '/' && location.pathname === '/') ||
-              (item.href === '/properti' && location.pathname.startsWith('/properti'));
+              (item.href !== '/' && location.pathname.startsWith(item.href));
 
             return (
               <Link
@@ -61,15 +61,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
             );
           })}
         </nav>
-
-        <Button
-          asAnchor
-          href="/#kontak"
-          variant="primary"
-          className="hidden md:flex"
-        >
-          Hubungi Kami
-        </Button>
 
         <button
           onClick={onOpenMobileMenu}
