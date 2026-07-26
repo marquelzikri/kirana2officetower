@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HomePage } from './pages/HomePage';
 import { PropertyListingPage } from './pages/PropertyListingPage';
 import { PropertyDetailPage } from './pages/PropertyDetailPage';
+import { AdminPropertyPage } from './pages/AdminPropertyPage';
 import './tailwind.css';
 
 const queryClient = new QueryClient({
@@ -35,6 +36,7 @@ export function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/properti" element={<PropertyListingPage />} />
           <Route path="/properti/:id" element={<PropertyDetailPage />} />
+          <Route path="/admin" element={<AdminPropertyPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
@@ -43,4 +45,3 @@ export function App() {
 }
 
 export default App;
-

@@ -42,3 +42,76 @@ export async function fetchPropertyById(id: string): Promise<Property> {
 
   return response.json();
 }
+
+export async function createProperty(data: Partial<Property>): Promise<Property> {
+  const response = await fetch('/api/properties', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errData = (await response.json().catch(() => ({}))) as any;
+    throw new Error(errData.error || `Failed to create property: ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+export async function updateProperty(id: string, data: Partial<Property>): Promise<Property> {
+  const response = await fetch(`/api/properties/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errData = (await response.json().catch(() => ({}))) as any;
+    throw new Error(errData.error || `Failed to update property: ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+export async function deleteProperty(id: string): Promise<{ success: boolean }> {
+  const response = await fetch(`/api/properties/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    const errData = (await response.json().catch(() => ({}))) as any;
+    throw new Error(errData.error || `Failed to delete property: ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+export async function seedProperties(): Promise<{ success: boolean; seededCount: number }> {
+  const response = await fetch('/api/properties/seed', {
+    method: 'POST',
+  });
+
+  if (!response.ok) {
+    const errData = (await response.json().catch(() => ({}))) as any;
+    throw new Error(errData.error || `Failed to seed database: ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+export async function uploadMedia(file: File): Promise<{ url: string }> {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch('/api/upload', {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errData = (await response.json().catch(() => ({}))) as any;
+    throw new Error(errData.error || `Failed to upload media: ${response.statusText}`);
+  }
+
+  return response.json();
+}
