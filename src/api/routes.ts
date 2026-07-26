@@ -2,18 +2,24 @@ import { applySecurityHeaders, authenticateRequest } from './auth';
 import { handleAuthRoutes } from './authRoutes';
 import {
   createContactInDb,
+  createInsightInDb,
   createPropertyInDb,
   createUserInDb,
   deleteContactFromDb,
+  deleteInsightFromDb,
   deletePropertyFromDb,
   deleteUserFromDb,
   type EnvWithDb,
   getAllUsersFromDb,
   getContactsFromDb,
+  getInsightByIdFromDb,
+  getInsightBySlugFromDb,
+  getInsightsFromDb,
   getPropertiesFromDb,
   getPropertyByIdFromDb,
   seedPropertiesInDb,
   updateContactStatusInDb,
+  updateInsightInDb,
   updatePropertyInDb,
 } from './db';
 import { getMediaResponse, uploadMediaToStorage } from './media';
@@ -293,6 +299,125 @@ export async function handleApiRequest(
         return jsonResponse({ success: true, message: 'Pesan kontak berhasil dihapus' });
       } catch (err: any) {
         return jsonResponse({ error: err.message || 'Gagal menghapus pesan kontak' }, { status: 500 });
+      }
+    }
+  }
+
+  // --- INSIGHT / BLOG ENDPOINTS ---
+
+  // GET /api/insights - List insights (Public: published only; Admin with ?all=true: all)
+  if (pathname === '/api/insights' && request.method === 'GET') {
+    try {
+      const showAll = url.searchParams.get('all') === 'true';
+      const statusFilter = url.searchParams.get('status') || 'all';
+      const category = url.searchParams.get('category') || 'all';
+
+      // If requesting all (including drafts), require admin/owner auth
+      if (showAll) {
+        const { errorResponse } = await authenticateRequest(request, ['admin', 'owner']);
+        if (errorResponse) return errorResponse;
+      }
+
+      const insights = await getInsightsFromDb(env, {
+        status: statusFilter,
+        category,
+        showAll,
+      });
+      return jsonResponse({ insights });
+    } catch (err: any) {
+      return jsonResponse(
+        { error: err.message || 'Gagal mengambil daftar insight' },
+        { status: 500 }
+      );
+    }
+  }
+
+  // POST /api/insights - Create new insight (Admin & Owner)
+  if (pathname === '/api/insights' && request.method === 'POST') {
+    const { payload, errorResponse } = await authenticateRequest(request, ['admin', 'owner']);
+    if (errorResponse) return errorResponse;
+
+    try {
+      const body: any = await request.json();
+      if (!body.title || !body.excerpt || !body.body || !body.category) {
+        return jsonResponse(
+          { error: 'Field wajib: title, excerpt, body, category' },
+          { status: 400 }
+        );
+      }
+
+      const created = await createInsightInDb(env, {
+        title: body.title,
+        slug: body.slug,
+        excerpt: body.excerpt,
+        body: body.body,
+        coverImage: body.coverImage,
+        category: body.category,
+        authorId: payload!.userId,
+        authorName: payload!.name,
+        status: body.status,
+      });
+      return jsonResponse(created, { status: 201 });
+    } catch (err: any) {
+      return jsonResponse(
+        { error: err.message || 'Gagal membuat insight baru' },
+        { status: 500 }
+      );
+    }
+  }
+
+  // GET / PUT / DELETE /api/insights/:idOrSlug
+  const insightMatch = pathname.match(/^\/api\/insights\/([^/]+)$/);
+  if (insightMatch && insightMatch[1]) {
+    const idOrSlug: string = insightMatch[1];
+
+    if (request.method === 'GET') {
+      try {
+        // Try by slug first (public), then by ID
+        let insight = await getInsightBySlugFromDb(env, idOrSlug);
+        if (!insight) {
+          insight = await getInsightByIdFromDb(env, idOrSlug);
+        }
+        if (!insight) {
+          return jsonResponse({ error: 'Insight tidak ditemukan' }, { status: 404 });
+        }
+        return jsonResponse(insight);
+      } catch (err: any) {
+        return jsonResponse(
+          { error: err.message || 'Gagal mengambil insight' },
+          { status: 500 }
+        );
+      }
+    }
+
+    if (request.method === 'PUT') {
+      const { errorResponse } = await authenticateRequest(request, ['admin', 'owner']);
+      if (errorResponse) return errorResponse;
+
+      try {
+        const body: any = await request.json();
+        const updated = await updateInsightInDb(env, idOrSlug, body);
+        return jsonResponse(updated);
+      } catch (err: any) {
+        return jsonResponse(
+          { error: err.message || 'Gagal memperbarui insight' },
+          { status: 500 }
+        );
+      }
+    }
+
+    if (request.method === 'DELETE') {
+      const { errorResponse } = await authenticateRequest(request, ['owner']);
+      if (errorResponse) return errorResponse;
+
+      try {
+        await deleteInsightFromDb(env, idOrSlug);
+        return jsonResponse({ success: true, message: 'Insight berhasil dihapus' });
+      } catch (err: any) {
+        return jsonResponse(
+          { error: err.message || 'Gagal menghapus insight' },
+          { status: 500 }
+        );
       }
     }
   }

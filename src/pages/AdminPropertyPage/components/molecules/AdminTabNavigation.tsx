@@ -1,8 +1,10 @@
 import React from 'react';
 
+type AdminTab = 'properties' | 'contacts' | 'insights';
+
 interface AdminTabNavigationProps {
-  activeTab: 'properties' | 'contacts';
-  onTabChange: (tab: 'properties' | 'contacts') => void;
+  activeTab: AdminTab;
+  onTabChange: (tab: AdminTab) => void;
   unreadContactCount: number;
 }
 
@@ -40,6 +42,18 @@ export const AdminTabNavigation: React.FC<AdminTabNavigationProps> = ({
             {unreadContactCount} baru
           </span>
         )}
+      </button>
+
+      <button
+        onClick={() => onTabChange('insights')}
+        className={`px-5 py-3 font-label-md text-xs font-bold transition-all border-b-2 flex items-center space-x-2 ${
+          activeTab === 'insights'
+            ? 'border-heritage-red text-heritage-red bg-white/60 rounded-t-xl'
+            : 'border-transparent text-on-surface-variant hover:text-on-surface'
+        }`}
+      >
+        <span className="material-symbols-outlined text-sm">article</span>
+        <span>Insight / Blog</span>
       </button>
     </div>
   );

@@ -10,6 +10,8 @@ import { AboutPage } from './pages/AboutPage';
 import { AdminPropertyPage } from './pages/AdminPropertyPage';
 import { ContactPage } from './pages/ContactPage';
 import { HomePage } from './pages/HomePage';
+import { InsightDetailPage } from './pages/InsightDetailPage';
+import { InsightPage } from './pages/InsightPage';
 import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { PropertyDetailPage } from './pages/PropertyDetailPage';
@@ -52,6 +54,8 @@ export function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/kontak" element={<ContactPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/insight" element={<InsightPage />} />
+            <Route path="/insight/:slug" element={<InsightDetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route

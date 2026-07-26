@@ -7,6 +7,7 @@ import { buildFilteredPropertyQuery, INSERT_PROPERTY_QUERY, UPDATE_PROPERTY_QUER
 import { initTableInSqlite } from './db/schema';
 
 export * from './db/contacts';
+export * from './db/insights';
 export * from './db/users';
 export type { PropertyFilterOptions };
 

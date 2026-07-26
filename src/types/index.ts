@@ -107,4 +107,21 @@ export interface ContactMessage {
   updatedAt?: string;
 }
 
+export type InsightStatus = 'draft' | 'published';
+
+export interface Insight {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  body: string;
+  coverImage?: string;
+  category: string;
+  authorId: string;
+  authorName: string;
+  status: InsightStatus;
+  publishedAt?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
 
