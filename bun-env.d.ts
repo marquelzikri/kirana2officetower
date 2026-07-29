@@ -8,6 +8,38 @@ declare module "*.svg" {
   export = path;
 }
 
+declare module "*.png" {
+  /**
+   * A path to the PNG file
+   */
+  const path: string;
+  export = path;
+}
+
+declare module "*.jpg" {
+  /**
+   * A path to the JPG file
+   */
+  const path: string;
+  export = path;
+}
+
+declare module "*.jpeg" {
+  /**
+   * A path to the JPEG file
+   */
+  const path: string;
+  export = path;
+}
+
+declare module "*.webp" {
+  /**
+   * A path to the WEBP file
+   */
+  const path: string;
+  export = path;
+}
+
 declare module "*.css" {}
 
 declare module "*.module.css" {
