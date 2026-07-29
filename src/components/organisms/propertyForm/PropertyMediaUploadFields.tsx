@@ -37,7 +37,7 @@ export const PropertyMediaUploadFields: React.FC<PropertyMediaUploadFieldsProps>
   return (
     <div>
       <div className="flex items-center justify-between mb-4 border-b border-outline-variant/10 pb-2">
-        <FormSectionTitle borderBottom={false}>Upload Media (Cloudflare R2 Storage)</FormSectionTitle>
+        <FormSectionTitle borderBottom={false}>Upload Media</FormSectionTitle>
         <span className="text-xs bg-emerald-500/10 text-emerald-700 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-500/20 flex items-center gap-1">
           <Icon name="cloud_upload" className="text-sm" /> S3 / R2 Bucket Enabled
         </span>

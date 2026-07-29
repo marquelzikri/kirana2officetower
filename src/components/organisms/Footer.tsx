@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@/components/atoms/Icon';
 import { Logo } from '@/components/atoms/Logo';
 import { ContactItem } from '@/components/molecules/ContactItem';
-import { advisoryServices,navItems } from '@/data/mockData';
+import { navItems } from '@/data/mockData';
 
 export const Footer: React.FC = () => {
   return (
@@ -55,7 +55,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Services */}
-          <div className="col-span-1">
+          {/*<div className="col-span-1">
             <h4 className="font-label-md text-on-surface mb-8 tracking-widest uppercase">
               LAYANAN
             </h4>
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </div>*/}
 
           {/* Head Office Contact */}
           <div className="col-span-1">
@@ -80,15 +80,16 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-6">
               <ContactItem icon="location_on">
-                Menara Jaya, Lt. 24<br />
-                Jl. Jend. Sudirman Kav. 21<br />
-                Jakarta 12920, Indonesia
+                Jl. Boulevard Timur No.88 5<br />
+                RT.5/RW.2, Klp. Gading Tim.<br />
+                Kec. Klp. Gading, Jkt Utara<br />
+                Daerah Khusus Ibukota Jakarta 14240
               </ContactItem>
               <ContactItem icon="call">
-                +62 21 5000 8888
+                +62 813 3845 0504
               </ContactItem>
               <ContactItem icon="mail">
-                info@intijayaproperty.co.id
+                info@kiranatwo.co.id
               </ContactItem>
             </ul>
           </div>
@@ -97,7 +98,7 @@ export const Footer: React.FC = () => {
         {/* Copyright */}
         <div className="pt-10 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-on-surface-variant text-label-sm">
-            © 2026 PT Inti Jaya Property. All rights reserved.
+            © 2026 Kirana Two Office Marketing. All rights reserved.
           </p>
           <div className="flex gap-8 text-label-sm font-label-md tracking-widest text-on-surface-variant">
             <span>TRUST</span>

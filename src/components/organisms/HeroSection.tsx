@@ -1,5 +1,6 @@
 import React from 'react';
 
+import heroBg from '@/assets/hero-bg.jpg';
 import { Button } from '@/components/atoms/Button';
 import { SectionHeader } from '@/components/atoms/SectionHeader';
 import { StatItem } from '@/components/molecules/StatItem';
@@ -13,8 +14,7 @@ export const HeroSection: React.FC = () => {
         <div
           className="w-full h-full bg-cover bg-center"
           style={{
-            backgroundImage:
-              'url("https://lh3.googleusercontent.com/aida-public/AB6AXuByelIKP6L0600oSSLytaiok4hTPozdYAAYr44Mhe3wEwn09fFpR4EsJQxSjX5tW2qKWKUIdaJy5GNALUKu35aC-b-NJeVLr6_oY576eGjr4igKxkaxOD9JsqcBBG-t5NeN7uvDkdqgNFe0i2aKPAvh4CaQgxNBJdDQoD9_i52q5SRCpb45ZEO0IfcUqLEl3CfxbcIc3nHwuewLY_RgE5JZv1mrlppalLO8EXKLBagl1ACne8lCrVAerIUN58GXdA_QztuXcP6hmA")',
+            backgroundImage: `url("${heroBg}")`,
           }}
         ></div>
       </div>

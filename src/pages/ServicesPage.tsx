@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@/components/atoms/Icon';
 import { SectionHeader } from '@/components/atoms/SectionHeader';
 import { CTASection } from '@/components/organisms/CTASection';
-import { NewsletterSection } from '@/components/organisms/NewsletterSection';
 import { MainLayout } from '@/components/templates/MainLayout';
 import { advisoryServices } from '@/data/mockData';
 
@@ -89,7 +88,6 @@ export const ServicesPage: React.FC = () => {
 
       {/* Main CTA & Newsletter */}
       <CTASection />
-      <NewsletterSection />
     </MainLayout>
   );
 };

@@ -40,7 +40,7 @@ export const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
               {initialData ? 'Edit Properti Listing' : 'Tambah Properti Baru'}
             </h3>
             <p className="font-body-sm text-on-surface-variant">
-              {initialData ? `Mengubah data unit ${initialData.unitCode}` : 'Isi formulir berikut untuk menambah unit perkantoran ke Cloudflare D1 & R2.'}
+              {initialData ? `Mengubah data unit ${initialData.unitCode}` : 'Isi formulir berikut untuk menambah unit perkantoran.'}
             </p>
           </div>
           <button

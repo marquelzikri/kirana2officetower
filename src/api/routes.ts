@@ -119,7 +119,7 @@ export async function handleApiRequest(
       const mediaUrl = await uploadMediaToStorage(env, file);
       return jsonResponse({ url: mediaUrl });
     } catch (err: any) {
-      return jsonResponse({ error: err.message || 'Failed to upload file to Cloudflare storage' }, { status: 500 });
+      return jsonResponse({ error: err.message || 'Failed to upload file' }, { status: 500 });
     }
   }
 
@@ -425,4 +425,3 @@ export async function handleApiRequest(
   // Not an API route managed here
   return null;
 }
-

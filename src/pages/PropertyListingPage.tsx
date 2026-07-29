@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@/components/atoms/Icon';
 import { CTASection } from '@/components/organisms/CTASection';
-import { NewsletterSection } from '@/components/organisms/NewsletterSection';
 import { PropertyListingSection } from '@/components/organisms/PropertyListingSection';
 import { MainLayout } from '@/components/templates/MainLayout';
 
@@ -41,7 +40,6 @@ export const PropertyListingPage: React.FC = () => {
 
       {/* CTA & Newsletter */}
       <CTASection />
-      <NewsletterSection />
     </MainLayout>
   );
 };

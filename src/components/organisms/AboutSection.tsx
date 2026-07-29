@@ -1,5 +1,6 @@
 import React from 'react';
 
+import boardroomImg from '@/assets/executive-boardroom.jpg';
 import { Icon } from '@/components/atoms/Icon';
 import { SectionHeader } from '@/components/atoms/SectionHeader';
 
@@ -14,7 +15,7 @@ export const AboutSection: React.FC = () => {
               Konsultan properti yang dipercaya oleh investor dan pemilik bisnis Indonesia.
             </h2>
             <p className="font-body-md text-on-surface-variant mb-6">
-              Inti Jaya Property adalah perusahaan konsultan real estate dan investasi properti premium di Indonesia. Kami melayani seluruh spektrum aset — residensial, komersial, perkantoran, perhotelan, industri, retail, hingga pengembangan lahan strategis.
+              Kirana Two Office Marketing adalah perusahaan konsultan real estate dan investasi properti premium di Indonesia. Kami melayani seluruh spektrum aset — residensial, komersial, perkantoran, perhotelan, industri, retail, hingga pengembangan lahan strategis.
             </p>
             <p className="font-body-md text-on-surface-variant mb-10">
               Setiap engagement kami didasari oleh riset pasar mendalam, analisa investasi yang disiplin, dan komitmen jangka panjang kepada klien.
@@ -31,7 +32,7 @@ export const AboutSection: React.FC = () => {
           <div className="order-1 md:order-2 relative">
             <div className="aspect-[4/5] overflow-hidden">
               <img
-                src="https://lh3.googleusercontent.com/aida/AP1WRLsGdjANP2OpwmNgi1CWyqAl83pkfm5F3xxmbJ5iB3YNVdecxXCQaG9e-wU3KzkThH9Me7RY5nVY9p5E_JPBgh-Y4z66oTrXcyrnsZfWHbGds-ZFCjD6sO2l6d-zyZH5x2fj1YU4mK98z90f_aSspRFj5m8PKcQDN4Lc_Ne-jeWB_5T98oRvnjsCX4wiGM6eT_ib03ko8tbc1pyFPdkn0ZEyUkv57vd7ge6JAbBBWXZQ5ZQVF65jEuEhpA"
+                src={boardroomImg}
                 alt="Executive Boardroom"
                 className="w-full h-full object-cover"
               />
