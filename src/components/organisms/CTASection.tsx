@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ctaBg from '@/assets/cta-bg.jpg';
 import { Button } from '@/components/atoms/Button';
 import { Icon } from '@/components/atoms/Icon';
 import { SectionHeader } from '@/components/atoms/SectionHeader';
@@ -10,7 +11,7 @@ export const CTASection: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 luxury-overlay z-10"></div>
         <img
-          src="https://lh3.googleusercontent.com/aida/AP1WRLsGdjANP2OpwmNgi1CWyqAl83pkfm5F3xxmbJ5iB3YNVdecxXCQaG9e-wU3KzkThH9Me7RY5nVY9p5E_JPBgh-Y4z66oTrXcyrnsZfWHbGds-ZFCjD6sO2l6d-zyZH5x2fj1YU4mK98z90f_aSspRFj5m8PKcQDN4Lc_Ne-jeWB_5T98oRvnjsCX4wiGM6eT_ib03ko8tbc1pyFPdkn0ZEyUkv57vd7ge6JAbBBWXZQ5ZQVF65jEuEhpA"
+          src={ctaBg}
           alt="Corporate Boardroom"
           className="w-full h-full object-cover"
         />

@@ -8,7 +8,7 @@
 [![Cloudflare R2](https://img.shields.io/badge/Cloudflare_R2-Object_Storage-F38020?logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/r2/)
 [![Cloudflare D1](https://img.shields.io/badge/Cloudflare_D1-Serverless_SQL-F38020?logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/d1/)
 
-A modern, high-performance commercial real estate web application for **Kirana Two Office Tower (Intijaya Property)**, designed for searching, filtering, managing, and inquiring about Grade-A office suites and commercial spaces in Kelapa Gading, North Jakarta.
+A modern, high-performance commercial real estate web application for **Kirana Two Office Marketing**, designed for searching, filtering, managing, and inquiring about Grade-A office suites and commercial spaces in Kelapa Gading, North Jakarta.
 
 ---
 
@@ -233,4 +233,4 @@ bun run deploy
 
 ## 📄 License
 
-Private repository. All rights reserved by **Intijaya Property / Kirana Two Office Tower**.
+Private repository. All rights reserved by **Kirana Two Office Marketing**.

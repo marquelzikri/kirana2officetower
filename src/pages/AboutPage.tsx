@@ -4,13 +4,12 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@/components/atoms/Icon';
 import { SectionHeader } from '@/components/atoms/SectionHeader';
 import { CTASection } from '@/components/organisms/CTASection';
-import { NewsletterSection } from '@/components/organisms/NewsletterSection';
 import { TrackRecordSection } from '@/components/organisms/TrackRecordSection';
 import { MainLayout } from '@/components/templates/MainLayout';
 
 export const AboutPage: React.FC = () => {
   useEffect(() => {
-    document.title = 'Tentang Kami — Inti Jaya Property';
+    document.title = 'Tentang Kami — Kirana Two Office Marketing';
   }, []);
 
   const coreValues = [
@@ -66,7 +65,7 @@ export const AboutPage: React.FC = () => {
               Konsultan properti dan mitra investasi Indonesia.
             </h1>
             <p className="font-body-lg text-on-surface-variant text-base md:text-xl leading-relaxed mb-10 max-w-3xl">
-              Inti Jaya Property didirikan untuk mendampingi investor, developer dan pemilik bisnis dalam mengambil keputusan properti yang berbasis data dan berorientasi jangka panjang.
+              Kirana Two Office Marketing didirikan untuk mendampingi investor, developer dan pemilik bisnis dalam mengambil keputusan properti yang berbasis data dan berorientasi jangka panjang.
             </p>
 
             {/* Quick Metrics Grid */}
@@ -117,10 +116,10 @@ export const AboutPage: React.FC = () => {
               <h2 className="text-2xl md:text-4xl font-bold text-on-surface mb-6 leading-snug">
                 Lebih dari satu dekade pengalaman di real estate premium.
               </h2>
-              
+
               <div className="space-y-4 text-on-surface-variant text-base md:text-lg leading-relaxed mb-8">
                 <p>
-                  Dari kantor pusat kami di Jakarta, Inti Jaya Property telah mendampingi ratusan transaksi properti — mulai dari residensial premium, gedung perkantoran Grade-A, aset perhotelan, hingga lahan pengembangan strategis di seluruh Indonesia.
+                  Dari kantor pusat kami di Jakarta, Kirana Two Office Marketing telah mendampingi ratusan transaksi properti — mulai dari residensial premium, gedung perkantoran Grade-A, aset perhotelan, hingga lahan pengembangan strategis di seluruh Indonesia.
                 </p>
                 <p>
                   Kami tidak mengejar volume. Fokus kami adalah membangun hubungan jangka panjang dengan investor, developer dan corporate client — melalui eksekusi yang disiplin dan advisory yang objektif.
@@ -205,7 +204,6 @@ export const AboutPage: React.FC = () => {
 
       {/* Main CTA & Newsletter */}
       <CTASection />
-      <NewsletterSection />
     </MainLayout>
   );
 };

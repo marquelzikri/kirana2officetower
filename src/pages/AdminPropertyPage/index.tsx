@@ -60,7 +60,7 @@ export const AdminPropertyPage: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ['admin-properties'] });
       queryClient.invalidateQueries({ queryKey: ['properties'] });
       setIsFormModalOpen(false);
-      showNotification('success', 'Properti baru berhasil ditambahkan ke Cloudflare D1 Database!');
+      showNotification('success', 'Properti baru berhasil ditambahkan!');
     },
     onError: (err: any) => showNotification('error', err.message || 'Gagal menambahkan properti.'),
   });
@@ -72,7 +72,7 @@ export const AdminPropertyPage: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ['properties'] });
       setIsFormModalOpen(false);
       setSelectedProperty(null);
-      showNotification('success', 'Perubahan properti berhasil disimpan ke Cloudflare D1 Database!');
+      showNotification('success', 'Perubahan properti berhasil disimpan!');
     },
     onError: (err: any) => showNotification('error', err.message || 'Gagal mengubah properti.'),
   });

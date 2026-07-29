@@ -5,7 +5,6 @@ import { CategoriesSection } from '@/components/organisms/CategoriesSection';
 import { CTASection } from '@/components/organisms/CTASection';
 import { FeaturedListingsSection } from '@/components/organisms/FeaturedListingsSection';
 import { HeroSection } from '@/components/organisms/HeroSection';
-import { NewsletterSection } from '@/components/organisms/NewsletterSection';
 import { ServicesSection } from '@/components/organisms/ServicesSection';
 import { TrackRecordSection } from '@/components/organisms/TrackRecordSection';
 import { MainLayout } from '@/components/templates/MainLayout';
@@ -20,7 +19,6 @@ export const HomePage: React.FC = () => {
       <ServicesSection />
       <TrackRecordSection />
       <CTASection />
-      <NewsletterSection />
     </MainLayout>
   );
 };
